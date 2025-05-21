@@ -109,6 +109,11 @@
             border-color: #0ea5e9; /* focus:border-sky-500 */
             box-shadow: 0 0 0 2px #0ea5e9; /* focus:ring-2 focus:ring-sky-500 */
         }
+        .input-field:disabled {
+            background-color: #475569; /* slate-600 for disabled */
+            color: #94a3b8; /* slate-400 for disabled text */
+            cursor: not-allowed;
+        }
         .textarea-field {
             min-height: 80px;
         }
@@ -476,29 +481,42 @@
                     <input type="number" id="jornadaMensalContratual" class="input-field" value="220" placeholder="Ex: 220">
                 </div>
             </div>
+            <div class="input-group"> <label for="mesesContratoPrincipal" class="input-label">Total de Meses do Contrato:</label>
+                <input type="number" id="mesesContratoPrincipal" class="input-field" placeholder="Ex: 36">
+            </div>
         </section>
 
         <section class="calculator-section">
             <h2 class="calculator-title">Cálculo Mensal de Horas Extras</h2>
+            <p class="section-subtitle">Estimativa de horas extras devidas ao longo do contrato.</p>
             <div class="grid-container grid-container-md-2cols">
                 <div class="input-group">
-                    <label for="horasExtras50" class="input-label">Horas Extras (50%) no mês:</label>
-                    <input type="number" id="horasExtras50" class="input-field" placeholder="Ex: 20">
+                    <label for="horasExtrasDiariasAcao" class="input-label">Média de HE NÃO PAGAS por dia:</label>
+                    <input type="number" id="horasExtrasDiariasAcao" class="input-field" placeholder="Ex: 2">
                 </div>
                 <div class="input-group">
-                    <label for="horasExtras100" class="input-label">Horas Extras (100%) no mês:</label>
-                    <input type="number" id="horasExtras100" class="input-field" placeholder="Ex: 8">
+                    <label for="percentualAdicionalHEAcao" class="input-label">Adicional de HE (%):</label>
+                    <input type="number" id="percentualAdicionalHEAcao" class="input-field" value="50" placeholder="Ex: 50">
+                </div>
+                <div class="input-group">
+                    <label for="diasTrabalhadosMesAcao" class="input-label">Média de Dias Trabalhados/Mês:</label>
+                    <input type="number" id="diasTrabalhadosMesAcao" class="input-field" placeholder="Ex: 22">
+                </div>
+                <div class="input-group">
+                    <label for="mesesContratoAcao" class="input-label">Total de Meses no Contrato (informativo):</label>
+                    <input type="number" id="mesesContratoAcao" class="input-field" placeholder="Meses do contrato" disabled>
                 </div>
             </div>
-            <button onclick="executarCalculoHorasExtras()" class="calculate-button mt-4">Calcular Horas Extras Mensal</button>
-            <div id="resultadoHE" class="result-display" style="display: none;">
-                <p class="result-text">Valor Hora Normal: <span id="valorHoraNormal" class="result-value"></span></p>
-                <p class="result-text">Total Horas Extras 50%: <span id="totalHE50" class="result-value"></span></p>
-                <p class="result-text">Total Horas Extras 100%: <span id="totalHE100" class="result-value"></span></p>
-                <p class="result-text mt-3 text-lg"><strong>Total Horas Extras Mensal:</strong> <span id="totalGeralHE" class="result-value text-2xl"></span></p>
+            <button onclick="executarCalculoIndenizacaoAcao()" class="calculate-button mt-4">Calcular Total de Horas Extras Devidas</button>
+            <div id="resultadoAcao" class="result-display" style="display: none;">
+                <p class="result-text">Valor da Hora Normal (base): <span id="valorHoraNormalAcao" class="result-value"></span></p>
+                <p class="result-text">Valor da Hora Extra (com adicional): <span id="valorHoraExtraAcao" class="result-value"></span></p>
+                <p class="result-text">Total de Horas Extras no Período: <span id="totalHorasExtrasPeriodoAcao" class="result-value"></span></p>
+                <p class="result-text mt-3 text-lg"><strong>Valor Total Estimado (sem reflexos):</strong> <span id="indenizacaoTotalAcao" class="result-value text-2xl"></span></p>
+                <p class="disclaimer-text">Cálculo simplificado. Não inclui reflexos (DSR, 13º, férias, FGTS), correção ou juros. Consulte um profissional.</p>
             </div>
         </section>
-
+        
         <section class="calculator-section">
             <h2 class="calculator-title">Cálculo de Adicional Noturno</h2>
             <div class="grid-container grid-container-md-2cols">
@@ -511,11 +529,34 @@
                     <input type="number" id="percentualAdicionalNoturno" class="input-field" value="20" placeholder="Padrão: 20">
                 </div>
             </div>
+            <div class="input-group">
+                <label for="mesesContratoAdicionalNoturnoDisplay" class="input-label">Total de Meses no Contrato (informativo):</label>
+                <input type="number" id="mesesContratoAdicionalNoturnoDisplay" class="input-field" placeholder="Meses do contrato" disabled>
+            </div>
             <button onclick="executarCalculoAdicionalNoturno()" class="calculate-button mt-4">Calcular Adicional Noturno</button>
             <div id="resultadoAdicionalNoturno" class="result-display" style="display: none;">
                 <p class="result-text">Valor Hora Normal (Base): <span id="valorHoraNormalAN" class="result-value"></span></p>
                 <p class="result-text">Valor do Adicional Noturno por Hora: <span id="valorAdicionalNoturnoPorHora" class="result-value"></span></p>
-                <p class="result-text mt-3 text-lg"><strong>Total Adicional Noturno no Mês:</strong> <span id="totalAdicionalNoturnoMes" class="result-value text-2xl"></span></p>
+                <p class="result-text">Total Adicional Noturno no Mês: <span id="totalAdicionalNoturnoMes" class="result-value"></span></p>
+                <p class="result-text mt-3 text-lg"><strong>Total Adicional Noturno no Contrato:</strong> <span id="totalAdicionalNoturnoContrato" class="result-value text-2xl"></span></p>
+            </div>
+        </section>
+
+        <section class="calculator-section">
+            <h2 class="calculator-title">Cálculo de Adicional de Periculosidade</h2>
+            <div class="input-group">
+                <label for="percentualPericulosidade" class="input-label">Percentual de Periculosidade (% sobre Salário Base):</label>
+                <input type="number" id="percentualPericulosidade" class="input-field" value="30" placeholder="Padrão: 30">
+            </div>
+            <div class="input-group">
+                <label for="mesesContratoPericulosidadeDisplay" class="input-label">Total de Meses no Contrato (informativo):</label>
+                <input type="number" id="mesesContratoPericulosidadeDisplay" class="input-field" placeholder="Meses do contrato" disabled>
+            </div>
+            <button onclick="executarCalculoPericulosidade()" class="calculate-button mt-4">Calcular Adicional de Periculosidade</button>
+            <div id="resultadoPericulosidade" class="result-display" style="display: none;">
+                <p class="result-text">Salário Base para Periculosidade: <span id="salarioBasePericulosidade" class="result-value"></span></p>
+                <p class="result-text">Valor do Adicional de Periculosidade Mensal: <span id="valorAdicionalPericulosidadeMensal" class="result-value"></span></p>
+                <p class="result-text mt-3 text-lg"><strong>Total Adicional de Periculosidade no Contrato:</strong> <span id="totalAdicionalPericulosidadeContrato" class="result-value text-2xl"></span></p>
             </div>
         </section>
 
@@ -551,37 +592,6 @@
                 <p class="disclaimer-text">Atenção: Este cálculo não inclui descontos de INSS e IRRF.</p>
             </div>
         </section>
-
-        <section class="calculator-section">
-            <h2 class="calculator-title">Estimativa de Indenização por Horas Extras (Ação)</h2>
-            <p class="section-subtitle">Para cálculo de horas extras não pagas durante o contrato.</p>
-            <div class="grid-container grid-container-md-2cols">
-                <div class="input-group">
-                    <label for="horasExtrasDiariasAcao" class="input-label">Média de HE NÃO PAGAS por dia:</label>
-                    <input type="number" id="horasExtrasDiariasAcao" class="input-field" placeholder="Ex: 2">
-                </div>
-                <div class="input-group">
-                    <label for="percentualAdicionalHEAcao" class="input-label">Adicional de HE da Ação (%):</label>
-                    <input type="number" id="percentualAdicionalHEAcao" class="input-field" value="50" placeholder="Ex: 50">
-                </div>
-                <div class="input-group">
-                    <label for="diasTrabalhadosMesAcao" class="input-label">Média de Dias Trabalhados/Mês:</label>
-                    <input type="number" id="diasTrabalhadosMesAcao" class="input-field" placeholder="Ex: 22">
-                </div>
-                <div class="input-group">
-                    <label for="mesesContratoAcao" class="input-label">Total de Meses no Contrato:</label>
-                    <input type="number" id="mesesContratoAcao" class="input-field" placeholder="Ex: 36">
-                </div>
-            </div>
-            <button onclick="executarCalculoIndenizacaoAcao()" class="calculate-button mt-4">Calcular Indenização de HE (Ação)</button>
-            <div id="resultadoAcao" class="result-display" style="display: none;">
-                <p class="result-text">Valor da Hora Normal (base): <span id="valorHoraNormalAcao" class="result-value"></span></p>
-                <p class="result-text">Valor da Hora Extra (com adicional): <span id="valorHoraExtraAcao" class="result-value"></span></p>
-                <p class="result-text">Total de Horas Extras no Período: <span id="totalHorasExtrasPeriodoAcao" class="result-value"></span></p>
-                <p class="result-text mt-3 text-lg"><strong>Indenização Estimada (sem reflexos):</strong> <span id="indenizacaoTotalAcao" class="result-value text-2xl"></span></p>
-                <p class="disclaimer-text">Cálculo simplificado. Não inclui reflexos (DSR, 13º, férias, FGTS), correção ou juros. Consulte um profissional.</p>
-            </div>
-        </section>
         
         <section class="calculator-section">
             <h2 class="calculator-title">Estimativa de Indenização por Intervalo Intrajornada</h2>
@@ -600,8 +610,8 @@
                     <input type="number" id="diasIntervaloSprimidoMes" class="input-field" placeholder="Ex: 22">
                 </div>
                 <div class="input-group">
-                    <label for="mesesContratoIntervalo" class="input-label">Total de Meses com Supressão:</label>
-                    <input type="number" id="mesesContratoIntervalo" class="input-field" placeholder="Ex: 36">
+                    <label for="mesesContratoIntervalo" class="input-label">Total de Meses com Supressão (informativo):</label>
+                    <input type="number" id="mesesContratoIntervalo" class="input-field" placeholder="Meses do contrato" disabled>
                 </div>
             </div>
             <button onclick="executarCalculoIndenizacaoIntervalo()" class="calculate-button mt-4">Calcular Indenização de Intervalo</button>
@@ -613,7 +623,8 @@
             </div>
         </section>
 
-        <section class="calculator-section" id="secaoGerarPeticao"> <h2 class="calculator-title">Gerar Petição</h2>
+        <section class="calculator-section" id="secaoGerarPeticao">
+            <h2 class="calculator-title">Gerar Petição</h2>
             <p class="section-subtitle">Preencha todos os dados e os campos de cálculo antes de gerar.</p>
             <button onclick="prepararDadosParaPeticao()" class="action-button mt-4">Gerar Petição com Dados Atuais</button>
         </section>
@@ -631,6 +642,13 @@
         const togglePeticaoDados = document.getElementById('togglePeticaoDados');
         const secaoDadosPeticao = document.getElementById('secaoDadosPeticao');
         const secaoGerarPeticao = document.getElementById('secaoGerarPeticao');
+        
+        const mesesContratoPrincipalEl = document.getElementById('mesesContratoPrincipal');
+        const mesesContratoAcaoEl = document.getElementById('mesesContratoAcao');
+        const mesesContratoIntervaloEl = document.getElementById('mesesContratoIntervalo');
+        const mesesContratoAdicionalNoturnoDisplayEl = document.getElementById('mesesContratoAdicionalNoturnoDisplay');
+        const mesesContratoPericulosidadeDisplayEl = document.getElementById('mesesContratoPericulosidadeDisplay');
+
 
         function aplicarEstadoInterruptor(mostrar) {
             if (mostrar) {
@@ -655,6 +673,16 @@
             aplicarEstadoInterruptor(mostrar);
             localStorage.setItem('mostrarPeticaoDados', mostrar);
         });
+
+        if (mesesContratoPrincipalEl) {
+            mesesContratoPrincipalEl.addEventListener('input', function() {
+                const meses = this.value;
+                if (mesesContratoAcaoEl) mesesContratoAcaoEl.value = meses;
+                if (mesesContratoIntervaloEl) mesesContratoIntervaloEl.value = meses;
+                if (mesesContratoAdicionalNoturnoDisplayEl) mesesContratoAdicionalNoturnoDisplayEl.value = meses;
+                if (mesesContratoPericulosidadeDisplayEl) mesesContratoPericulosidadeDisplayEl.value = meses;
+            });
+        }
 
 
         function formatCurrency(value) {
@@ -719,47 +747,13 @@
                 }
             }, duration); 
         }
-
-        function calcularHorasExtras() {
-            const salarioMensal = getFloatValue('salarioMensalBruto'); 
-            const jornadaMensal = getFloatValue('jornadaMensalContratual');
-            const horasExtras50 = getFloatValue('horasExtras50');
-            const horasExtras100 = getFloatValue('horasExtras100');
-
-            if (salarioMensal <= 0 || jornadaMensal <= 0 ) {
-                if (salarioMensal <= 0 ) showCustomAlert("Salário Mensal Bruto deve ser maior que zero.");
-                if (jornadaMensal <= 0) showCustomAlert("Jornada Mensal Contratual deve ser maior que zero.");
-                return null; 
-            }
-            
-            const valorHoraNormal = salarioMensal / jornadaMensal;
-            const valorHE50 = valorHoraNormal * 1.5 * horasExtras50;
-            const valorHE100 = valorHoraNormal * 2.0 * horasExtras100;
-            const totalGeralHE = valorHE50 + valorHE100;
-
-            return {
-                valorHoraNormal, valorHE50, valorHE100, totalGeralHE
-            };
-        }
-
-        function executarCalculoHorasExtras() {
-            const resultados = calcularHorasExtras();
-            if (resultados) {
-                document.getElementById('valorHoraNormal').textContent = formatCurrency(resultados.valorHoraNormal);
-                document.getElementById('totalHE50').textContent = formatCurrency(resultados.valorHE50);
-                document.getElementById('totalHE100').textContent = formatCurrency(resultados.valorHE100);
-                document.getElementById('totalGeralHE').textContent = formatCurrency(resultados.totalGeralHE);
-                document.getElementById('resultadoHE').style.display = 'block';
-            } else {
-                 document.getElementById('resultadoHE').style.display = 'none';
-            }
-        }
-
+        
         function calcularAdicionalNoturno() {
             const salarioMensal = getFloatValue('salarioMensalBruto');
             const jornadaMensal = getFloatValue('jornadaMensalContratual');
             const horasNoturnasMes = getFloatValue('horasNoturnasMes');
             const percentualAdicionalNoturno = getFloatValue('percentualAdicionalNoturno');
+            const mesesContrato = getFloatValue('mesesContratoPrincipal'); 
 
             if (salarioMensal <= 0 || jornadaMensal <= 0 || horasNoturnasMes < 0 || percentualAdicionalNoturno < 0) {
                 if (salarioMensal <= 0) showCustomAlert("Salário Mensal Bruto para Adicional Noturno deve ser > 0.");
@@ -772,11 +766,13 @@
             const valorHoraNormal = salarioMensal / jornadaMensal;
             const valorAdicionalNoturnoPorHora = valorHoraNormal * (percentualAdicionalNoturno / 100);
             const totalAdicionalNoturnoMes = valorAdicionalNoturnoPorHora * horasNoturnasMes;
+            const totalAdicionalNoturnoContrato = mesesContrato > 0 ? totalAdicionalNoturnoMes * mesesContrato : 0;
             
             return {
                 valorHoraNormalAN: valorHoraNormal,
                 valorAdicionalNoturnoPorHora,
-                totalAdicionalNoturnoMes
+                totalAdicionalNoturnoMes,
+                totalAdicionalNoturnoContrato
             };
         }
 
@@ -786,9 +782,43 @@
                 document.getElementById('valorHoraNormalAN').textContent = formatCurrency(resultados.valorHoraNormalAN);
                 document.getElementById('valorAdicionalNoturnoPorHora').textContent = formatCurrency(resultados.valorAdicionalNoturnoPorHora);
                 document.getElementById('totalAdicionalNoturnoMes').textContent = formatCurrency(resultados.totalAdicionalNoturnoMes);
+                document.getElementById('totalAdicionalNoturnoContrato').textContent = formatCurrency(resultados.totalAdicionalNoturnoContrato);
                 document.getElementById('resultadoAdicionalNoturno').style.display = 'block';
             } else {
                 document.getElementById('resultadoAdicionalNoturno').style.display = 'none';
+            }
+        }
+
+        function calcularPericulosidade() {
+            const salarioBase = getFloatValue('salarioMensalBruto'); // Usando salário bruto como base
+            const percentualPericulosidade = getFloatValue('percentualPericulosidade');
+            const mesesContrato = getFloatValue('mesesContratoPrincipal');
+
+            if (salarioBase <= 0 || percentualPericulosidade <= 0) {
+                if (salarioBase <= 0) showCustomAlert("Salário Base para Periculosidade deve ser > 0.");
+                if (percentualPericulosidade <= 0) showCustomAlert("Percentual de Periculosidade deve ser > 0.");
+                return null;
+            }
+
+            const adicionalMensal = salarioBase * (percentualPericulosidade / 100);
+            const adicionalTotalContrato = mesesContrato > 0 ? adicionalMensal * mesesContrato : 0;
+
+            return {
+                salarioBasePericulosidade: salarioBase,
+                valorAdicionalPericulosidadeMensal: adicionalMensal,
+                totalAdicionalPericulosidadeContrato: adicionalTotalContrato
+            };
+        }
+
+        function executarCalculoPericulosidade() {
+            const resultados = calcularPericulosidade();
+            if (resultados) {
+                document.getElementById('salarioBasePericulosidade').textContent = formatCurrency(resultados.salarioBasePericulosidade);
+                document.getElementById('valorAdicionalPericulosidadeMensal').textContent = formatCurrency(resultados.valorAdicionalPericulosidadeMensal);
+                document.getElementById('totalAdicionalPericulosidadeContrato').textContent = formatCurrency(resultados.totalAdicionalPericulosidadeContrato);
+                document.getElementById('resultadoPericulosidade').style.display = 'block';
+            } else {
+                document.getElementById('resultadoPericulosidade').style.display = 'none';
             }
         }
 
@@ -858,21 +888,21 @@
             }
         }
 
-        function calcularIndenizacaoAcao() {
+        function calcularIndenizacaoAcao() { 
             const salarioMensal = getFloatValue('salarioMensalBruto');
             const jornadaMensal = getFloatValue('jornadaMensalContratual');
             const horasExtrasDiarias = getFloatValue('horasExtrasDiariasAcao');
             const diasTrabalhadosMes = getFloatValue('diasTrabalhadosMesAcao');
-            const mesesContrato = getFloatValue('mesesContratoAcao');
+            const mesesContrato = getFloatValue('mesesContratoPrincipal'); 
             const percentualAdicionalInput = getFloatValue('percentualAdicionalHEAcao');
 
-            if (salarioMensal <= 0 || jornadaMensal <= 0 || horasExtrasDiarias <= 0 || diasTrabalhadosMes <= 0 || diasTrabalhadosMes > 31 || mesesContrato <= 0 || percentualAdicionalInput < 0) {
-                if (salarioMensal <= 0) showCustomAlert("Salário para Ação de HE deve ser > 0.");
-                if (jornadaMensal <= 0) showCustomAlert("Jornada para Ação de HE deve ser > 0.");
-                if (horasExtrasDiarias <= 0) showCustomAlert("Média de HE Diárias para Ação deve ser > 0.");
-                if (diasTrabalhadosMes <= 0 || diasTrabalhadosMes > 31) showCustomAlert("Dias Trabalhados/Mês para Ação deve ser realista (1-31).");
-                if (mesesContrato <= 0) showCustomAlert("Meses do Contrato para Ação deve ser > 0.");
-                if (percentualAdicionalInput < 0) showCustomAlert("Adicional de HE para Ação não pode ser negativo.");
+            if (salarioMensal <= 0 || jornadaMensal <= 0 || horasExtrasDiarias < 0 || diasTrabalhadosMes <= 0 || diasTrabalhadosMes > 31 || mesesContrato <= 0 || percentualAdicionalInput < 0) {
+                if (salarioMensal <= 0) showCustomAlert("Salário para HE deve ser > 0.");
+                if (jornadaMensal <= 0) showCustomAlert("Jornada para HE deve ser > 0.");
+                if (horasExtrasDiarias < 0) showCustomAlert("Média de HE Diárias não pode ser negativa.");
+                if (diasTrabalhadosMes <= 0 || diasTrabalhadosMes > 31) showCustomAlert("Dias Trabalhados/Mês para HE deve ser realista (1-31).");
+                if (mesesContrato <= 0) showCustomAlert("Meses do Contrato para HE deve ser > 0 (verifique campo principal).");
+                if (percentualAdicionalInput < 0) showCustomAlert("Adicional de HE não pode ser negativo.");
                 return null;
             }
             
@@ -907,7 +937,7 @@
             const tempoSuprimidoMinutos = getFloatValue('tempoIntervaloSprimidoMinutos');
             const percentualAdicional = getFloatValue('percentualAdicionalIntervalo');
             const diasComSupressaoMes = getFloatValue('diasIntervaloSprimidoMes');
-            const mesesComSupressao = getFloatValue('mesesContratoIntervalo');
+            const mesesComSupressao = getFloatValue('mesesContratoPrincipal'); 
 
             if (salarioMensal <= 0 || jornadaMensal <= 0 || tempoSuprimidoMinutos <= 0 || percentualAdicional < 0 || diasComSupressaoMes <= 0 || diasComSupressaoMes > 31 || mesesComSupressao <= 0) {
                 if(salarioMensal <= 0) showCustomAlert("Salário para Intervalo deve ser > 0.");
@@ -915,7 +945,7 @@
                 if(tempoSuprimidoMinutos <= 0) showCustomAlert("Tempo Suprimido/Dia para Intervalo deve ser > 0.");
                 if(percentualAdicional < 0) showCustomAlert("Adicional do Intervalo não pode ser negativo.");
                 if(diasComSupressaoMes <= 0 || diasComSupressaoMes > 31) showCustomAlert("Dias/Mês com Supressão de Intervalo deve ser realista (1-31).");
-                if(mesesComSupressao <= 0) showCustomAlert("Meses com Supressão de Intervalo deve ser > 0.");
+                if(mesesComSupressao <= 0) showCustomAlert("Meses com Supressão de Intervalo deve ser > 0 (verifique campo principal).");
                 return null;
             }
 
@@ -975,25 +1005,28 @@
                 peticaoHonorariosPercentual: getFloatValue('peticaoHonorariosPercentual') + "%",
 
                 ultimoSalarioMensalBruto: formatCurrency(getFloatValue('salarioMensalBruto')),
+                totalMesesContratoPrincipal: formatNumber(getFloatValue('mesesContratoPrincipal'),0), 
+                
                 mediaHorasExtrasDiariasNaoPagas: formatNumber(getFloatValue('horasExtrasDiariasAcao')),
                 percentualAdicionalHEDAcao: getFloatValue('percentualAdicionalHEAcao') + "%",
-                totalMesesContratoParaHE: formatNumber(getFloatValue('mesesContratoAcao'), 0),
+                
                 tempoIntervaloSuprimidoPorDiaMinutos: formatNumber(getFloatValue('tempoIntervaloSprimidoMinutos'), 0),
                 percentualAdicionalIntervalo: getFloatValue('percentualAdicionalIntervalo') + "%",
-                totalMesesSupressaoIntervalo: formatNumber(getFloatValue('mesesContratoIntervalo'), 0),
             };
-
-            const resultadosHE = calcularHorasExtras(); // Alterado de calcularHorasExtrasEDSR
-            // dadosPeticao.dsrSobreHEMensalCalculado foi removido
             
             const resultadosAdicionalNoturno = calcularAdicionalNoturno();
-            dadosPeticao.totalAdicionalNoturnoCalculado = resultadosAdicionalNoturno ? formatCurrency(resultadosAdicionalNoturno.totalAdicionalNoturnoMes) : "R$ 0,00 (Cálculo Ad. Noturno não realizado ou inválido)";
+            dadosPeticao.totalAdicionalNoturnoCalculado = resultadosAdicionalNoturno ? formatCurrency(resultadosAdicionalNoturno.totalAdicionalNoturnoMes) : "R$ 0,00";
+            dadosPeticao.totalAdicionalNoturnoContratoCalculado = resultadosAdicionalNoturno ? formatCurrency(resultadosAdicionalNoturno.totalAdicionalNoturnoContrato) : "R$ 0,00";
+
+            const resultadosPericulosidade = calcularPericulosidade();
+            dadosPeticao.adicionalPericulosidadeMensal = resultadosPericulosidade ? formatCurrency(resultadosPericulosidade.valorAdicionalPericulosidadeMensal) : "R$ 0,00";
+            dadosPeticao.totalAdicionalPericulosidadeContrato = resultadosPericulosidade ? formatCurrency(resultadosPericulosidade.totalAdicionalPericulosidadeContrato) : "R$ 0,00";
 
 
             const resultadosFerias = calcularFerias();
-            dadosPeticao.valorTotalBrutoFeriasCalculado = resultadosFerias ? formatCurrency(resultadosFerias.totalBrutoFerias) : "R$ 0,00 (Cálculo de férias não realizado ou inválido)";
+            dadosPeticao.valorTotalBrutoFeriasCalculado = resultadosFerias ? formatCurrency(resultadosFerias.totalBrutoFerias) : "R$ 0,00";
 
-            const resultadosAcaoHE = calcularIndenizacaoAcao();
+            const resultadosAcaoHE = calcularIndenizacaoAcao(); 
             let indenizacaoHeAcaoValor = 0;
             if (resultadosAcaoHE) {
                 dadosPeticao.valorHoraNormalBaseParaAcao = formatCurrency(resultadosAcaoHE.valorHoraNormalAcao);
@@ -1003,7 +1036,7 @@
             } else {
                 dadosPeticao.valorHoraNormalBaseParaAcao = "R$ 0,00";
                 dadosPeticao.valorHoraExtraComAdicionalParaAcao = "R$ 0,00";
-                dadosPeticao.indenizacaoEstimadaHEAcao = "R$ 0,00 (Cálculo de indenização HE não realizado ou inválido)";
+                dadosPeticao.indenizacaoEstimadaHEAcao = "R$ 0,00";
             }
 
             const resultadosIntervalo = calcularIndenizacaoIntervalo();
@@ -1014,11 +1047,13 @@
                 indenizacaoIntervaloValor = resultadosIntervalo.indenizacaoTotalIntervalo;
             } else {
                 dadosPeticao.valorIndenizatorioDiarioIntervalo = "R$ 0,00";
-                dadosPeticao.indenizacaoEstimadaIntervalo = "R$ 0,00 (Cálculo de indenização de intervalo não realizado ou inválido)";
+                dadosPeticao.indenizacaoEstimadaIntervalo = "R$ 0,00";
             }
             
-            let adicionalNoturnoValor = resultadosAdicionalNoturno ? resultadosAdicionalNoturno.totalAdicionalNoturnoMes : 0;
-            const valorDaCausa = indenizacaoHeAcaoValor + indenizacaoIntervaloValor + adicionalNoturnoValor; 
+            let adicionalNoturnoContratoValor = resultadosAdicionalNoturno ? resultadosAdicionalNoturno.totalAdicionalNoturnoContrato : 0;
+            let adicionalPericulosidadeContratoValor = resultadosPericulosidade ? resultadosPericulosidade.totalAdicionalPericulosidadeContrato : 0;
+
+            const valorDaCausa = indenizacaoHeAcaoValor + indenizacaoIntervaloValor + adicionalNoturnoContratoValor + adicionalPericulosidadeContratoValor; 
             dadosPeticao.somaTotalDosValoresPleiteados = formatCurrency(valorDaCausa);
 
             dadosPeticao.dataAtual = new Date().toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' });
@@ -1026,11 +1061,8 @@
 
             try {
                 localStorage.setItem('dadosPeticaoTrabalhista', JSON.stringify(dadosPeticao));
-                
                 showCustomAlert("Dados preparados! A petição será aberta numa nova aba. Lembre-se de salvá-la como PDF.", 8000);
-                
                 window.open('template.html', '_blank');
-                
             } catch (e) {
                 console.error("Erro ao salvar no localStorage: ", e);
                 showCustomAlert("Erro ao preparar dados. Verifique as permissões ou se o localStorage está cheio.");
