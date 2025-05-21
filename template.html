@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Petição Inicial Trabalhista Gerada</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            line-height: 1.5;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            padding: 30px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1, h2, h3 {
+            color: #333;
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+        }
+        h1 {
+            text-align: center;
+            font-size: 1.5em;
+            margin-bottom: 1.5em;
+        }
+        h2 {
+            font-size: 1.3em;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.3em;
+        }
+        h3 {
+            font-size: 1.1em;
+        }
+        p, li {
+            margin-bottom: 1em;
+            text-align: justify;
+        }
+        ul {
+            list-style-position: inside;
+            padding-left: 0; 
+        }
+        ul ul { 
+            padding-left: 2em; 
+            list-style-type: circle; 
+        }
+        strong.placeholder, span.placeholder-value { 
+            color: #007bff; 
+            font-style: italic;
+            background-color: #e9ecef; 
+            padding: 0 2px;
+            border-radius: 2px;
+        }
+        .signature-block {
+            margin-top: 3em;
+            text-align: center;
+        }
+        .value-field, span.value-field-value { 
+            font-weight: bold;
+            color: #28a745; 
+            background-color: #e9f5ec;
+            padding: 0 2px;
+            border-radius: 2px;
+        }
+        .hidden-section { /* Classe para ocultar seções */
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <p><strong>EXCELENTÍSSIMO(A) SENHOR(A) DOUTOR(A) JUIZ(A) DA VARA DO TRABALHO DE <span class="placeholder-value" id="ph_cidadeComarca">[CIDADE/COMARCA]</span> - <span class="placeholder-value" id="ph_ufVara">[UF]</span></strong></p>
+
+        <p style="margin-top: 3em;">
+            <span class="placeholder-value" id="ph_nomeReclamante">[NOME COMPLETO DO RECLAMANTE]</span>, <span class="placeholder-value" id="ph_nacionalidadeReclamante">[nacionalidade]</span>, <span class="placeholder-value" id="ph_estadoCivilReclamante">[estado civil]</span>, <span class="placeholder-value" id="ph_profissaoReclamante">[profissão]</span>, portador(a) da cédula de identidade RG nº <span class="placeholder-value" id="ph_rgReclamante">[NÚMERO DO RG]</span>, inscrito(a) no CPF/MF sob o nº <span class="placeholder-value" id="ph_cpfReclamante">[NÚMERO DO CPF]</span>, residente e domiciliado(a) na <span class="placeholder-value" id="ph_enderecoReclamante">[ENDEREÇO COMPLETO COM CEP]</span>, endereço eletrônico <span class="placeholder-value" id="ph_emailReclamante">[EMAIL DO RECLAMANTE]</span>, por seu(sua) advogado(a) infra-assinado(a) (procuração anexa), com escritório profissional na <span class="placeholder-value" id="ph_enderecoAdvogado">[ENDEREÇO DO ESCRITÓRIO DO ADVOGADO]</span>, onde recebe intimações e notificações, vem, respeitosamente, à presença de Vossa Excelência, propor a presente
+        </p>
+
+        <h1>RECLAMAÇÃO TRABALHISTA</h1>
+
+        <p>
+            em face de <span class="placeholder-value" id="ph_nomeReclamada">[NOME COMPLETO DA RECLAMADA/EMPRESA]</span>, pessoa jurídica de direito privado, inscrita no CNPJ/MF sob o nº <span class="placeholder-value" id="ph_cnpjReclamada">[NÚMERO DO CNPJ]</span>, com sede na <span class="placeholder-value" id="ph_enderecoReclamada">[ENDEREÇO COMPLETO DA RECLAMADA COM CEP]</span>, endereço eletrônico <span class="placeholder-value" id="ph_emailReclamada">[EMAIL DA RECLAMADA, SE HOUVER]</span>, pelos fatos e fundamentos jurídicos a seguir expostos:
+        </p>
+
+        <h2>I - DO CONTRATO DE TRABALHO</h2>
+        <p>
+            O(A) Reclamante foi admitido(a) pela Reclamada em <span class="placeholder-value" id="ph_dataAdmissao">[DATA DE ADMISSÃO]</span>, para exercer a função de <span class="placeholder-value" id="ph_funcaoReclamante">[FUNÇÃO DO RECLAMANTE]</span>, percebendo como última remuneração mensal o valor de R$ <span class="placeholder-value" id="ph_ultimoSalario">[ÚLTIMO SALÁRIO MENSAL BRUTO]</span>.
+        </p>
+        <p>
+            [Se houver demissão, adicionar: Foi dispensado(a) sem justa causa/com justa causa/pediu demissão em <span class="placeholder-value" id="ph_dataDemissao">[DATA DE DEMISSÃO]</span>.]
+        </p>
+        <p>
+            Durante o pacto laboral, o(a) Reclamante cumpria jornada de trabalho [descrever a jornada contratual, por exemplo: das 08h00 às 18h00, com 1 hora de intervalo, de segunda a sexta-feira]. <span class="placeholder" style="color: orange;">(Nota: Descrever jornada manualmente ou adicionar campo na calculadora)</span>
+        </p>
+
+        <h2>II - DOS FATOS E FUNDAMENTOS JURÍDICOS</h2>
+
+        <div id="secaoHorasExtras">
+            <h3>II.1 - Das Horas Extras Não Pagas</h3>
+            <p>
+                Durante todo o período contratual, o(a) Reclamante laborou em sobrejornada, realizando em média <span class="placeholder-value" id="ph_mediaHEDiarias">[MÉDIA DE HORAS EXTRAS DIÁRIAS NÃO PAGAS]</span> horas extras por dia, de segunda a [último dia da semana com HE] <span class="placeholder" style="color: orange;">(Nota: Ajustar dia manualmente)</span>, totalizando uma média de <span class="placeholder-value" id="ph_mediaHESemanais">[MÉDIA DE HORAS EXTRAS SEMANAIS]</span> horas extras semanais, ou <span class="placeholder-value" id="ph_mediaHEMensais">[MÉDIA DE HORAS EXTRAS MENSAIS]</span> horas extras mensais. <span class="placeholder" style="color: orange;">(Nota: HE semanais/mensais precisam ser calculadas ou inseridas)</span>
+            </p>
+            <p>
+                Tais horas extras eram habituais e não foram corretamente pagas pela Reclamada, ou foram pagas em quantidade inferior à devida. O adicional de horas extras devido é de <span class="placeholder-value" id="ph_percentualAdicionalHEAcao">[PERCENTUAL DO ADICIONAL DE HE DA AÇÃO]</span> sobre o valor da hora normal.
+            </p>
+            <p>
+                Considerando o período de <span class="placeholder-value" id="ph_totalMesesContratoHE">[TOTAL DE MESES NO CONTRATO PARA HE]</span> meses, o valor da hora normal de R$ <span class="placeholder-value" id="ph_valorHoraNormalAcao">[VALOR DA HORA NORMAL BASE PARA AÇÃO]</span> e o valor da hora extra de R$ <span class="placeholder-value" id="ph_valorHoraExtraAcao">[VALOR DA HORA EXTRA COM ADICIONAL PARA AÇÃO]</span>, o montante devido a título de horas extras não pagas perfaz a quantia de <strong class="value-field-value" id="ph_indenizacaoHEAcao">R$ [INDENIZAÇÃO ESTIMADA DE HE (AÇÃO)]</strong>.
+            </p>
+            <p>
+                Requer, ainda, o pagamento dos reflexos das horas extras habitualmente prestadas sobre o Descanso Semanal Remunerado (DSR), aviso prévio, 13º salários, férias acrescidas do terço constitucional e FGTS acrescido da multa de 40%.
+            </p>
+        </div>
+
+        <div id="secaoIntervalo">
+            <h3>II.2 - Do Intervalo Intrajornada Suprimido</h3>
+            <p>
+                Conforme o artigo 71 da CLT, em qualquer trabalho contínuo, cuja duração exceda de 6 (seis) horas, é obrigatória a concessão de um intervalo para repouso ou alimentação, o qual será, no mínimo, de 1 (uma) hora.
+            </p>
+            <p>
+                Ocorre que, durante <span class="placeholder-value" id="ph_diasSupressaoIntervaloMes">[NÚMERO DE DIAS POR SEMANA/MÊS]</span> <span class="placeholder" style="color: orange;">(Nota: Ajustar se for semanal)</span>, o(a) Reclamante tinha seu intervalo intrajornada parcialmente/totalmente suprimido, usufruindo apenas de <span class="placeholder-value" id="ph_tempoRealIntervalo">[TEMPO REAL DE INTERVALO GOZADO, SE HOUVER, OU "nenhum"]</span> minutos de intervalo <span class="placeholder" style="color: orange;">(Nota: Adicionar campo para tempo gozado ou ajustar texto)</span>. Desta forma, era suprimido, em média, <span class="placeholder-value" id="ph_tempoIntervaloSuprimidoMinutos">[TEMPO DE INTERVALO SUPRIMIDO POR DIA EM MINUTOS]</span> minutos do seu intervalo diário.
+            </p>
+            <p>
+                A supressão do intervalo intrajornada, ainda que parcial, confere ao empregado o direito ao pagamento integral do período correspondente, com acréscimo de, no mínimo, <span class="placeholder-value" id="ph_percentualAdicionalIntervalo">[PERCENTUAL DO ADICIONAL DE INTERVALO]</span> sobre o valor da remuneração da hora normal de trabalho, conforme § 4º do art. 71 da CLT.
+            </p>
+            <p>
+                Considerando a supressão do intervalo por <span class="placeholder-value" id="ph_totalMesesSupressaoIntervalo">[TOTAL DE MESES COM SUPRESSÃO DE INTERVALO]</span> meses, e o valor indenizatório diário de R$ <span class="placeholder-value" id="ph_valorDiarioIntervalo">[VALOR INDENIZATÓRIO DIÁRIO DO INTERVALO]</span>, o total devido a título de indenização pela supressão do intervalo intrajornada é de <strong class="value-field-value" id="ph_indenizacaoIntervalo">R$ [INDENIZAÇÃO ESTIMADA DO INTERVALO]</strong>.
+            </p>
+        </div>
+        
+        <div id="secaoFerias">
+            <h3>II.3 - Das Férias (Exemplo)</h3>
+            <p>
+                [Esta seção é um exemplo. Adapte conforme a necessidade.]
+            </p>
+            <p>
+                Durante o período de <span class="placeholder-value" id="ph_periodoAquisitivoFerias">[PERÍODO AQUISITIVO DAS FÉRIAS PLEITEADAS]</span>, o(a) Reclamante não gozou integralmente de suas férias / não recebeu corretamente o pagamento das férias acrescidas do terço constitucional.
+            </p>
+            <p>
+                O valor devido a título de férias [especificar: vencidas, proporcionais, em dobro] acrescidas do terço constitucional é de <strong class="value-field-value" id="ph_totalFeriasCalculado">R$ [VALOR TOTAL BRUTO DE FÉRIAS CALCULADO]</strong>.
+            </p>
+        </div>
+
+        <h2>III - DOS PEDIDOS</h2>
+        <p>Diante do exposto, requer a Vossa Excelência:</p>
+        <ul>
+            <li>a) A notificação da Reclamada para, querendo, apresentar defesa na audiência a ser designada, sob pena de revelia e confissão quanto à matéria de fato;</li>
+            <li>b) A procedência total da presente Reclamação Trabalhista, com a condenação da Reclamada ao pagamento das seguintes verbas:</li>
+            <ul>
+                <li id="pedidoItemHorasExtras">b.1) Horas extras não pagas, no valor de <strong class="value-field-value" id="ph_pedidoIndenizacaoHEAcao">R$ [INDENIZAÇÃO ESTIMADA DE HE (AÇÃO)]</strong>, acrescidas do adicional legal/convencional;</li>
+                <li id="pedidoItemReflexosHE">b.2) Reflexos das horas extras sobre DSR, aviso prévio, 13º salários, férias + 1/3, e FGTS + 40%, a serem apurados em liquidação de sentença;</li>
+                <li id="pedidoItemIntervalo">b.3) Indenização pela supressão do intervalo intrajornada, no valor de <strong class="value-field-value" id="ph_pedidoIndenizacaoIntervalo">R$ [INDENIZAÇÃO ESTIMADA DO INTERVALO]</strong>;</li>
+                <li id="pedidoItemFerias">b.4) Férias [especificar] acrescidas do terço constitucional, no valor de <strong class="value-field-value" id="ph_pedidoTotalFerias">R$ [VALOR TOTAL BRUTO DE FÉRIAS CALCULADO]</strong>;</li>
+                <li id="pedidoItemDSRMensal">b.5) [Outras verbas pleiteadas, como DSR sobre HE mensal, se for o caso: <strong class="value-field-value" id="ph_pedidoDSRMensal">R$ [TOTAL DSR SOBRE HE MENSAL (MÉDIA X MESES)]</strong>];</li>
+                <li>b.6) Multa do artigo 477, § 8º, da CLT, caso as verbas rescisórias não tenham sido pagas no prazo legal (se aplicável);</li>
+                <li>b.7) Multa do artigo 467 da CLT, sobre as verbas incontroversas (se aplicável);</li>
+            </ul>
+            <li>c) A condenação da Reclamada ao pagamento de juros e correção monetária sobre os valores devidos, na forma da lei;</li>
+            <li>d) A condenação da Reclamada ao pagamento de honorários advocatícios sucumbenciais, no percentual de <span class="placeholder-value" id="ph_percentualHonorarios">[PERCENTUAL DOS HONORÁRIOS]</span> sobre o valor da condenação (art. 791-A da CLT);</li>
+            <li>e) A concessão dos benefícios da Justiça Gratuita, por ser o(a) Reclamante pobre na acepção jurídica do termo, não podendo arcar com as custas processuais sem prejuízo do seu sustento e de sua família (declaração anexa);</li>
+            <li>f) A produção de todas as provas em direito admitidas, especialmente documental, testemunhal e pericial, se necessária.</li>
+        </ul>
+
+        <h2>IV - DO VALOR DA CAUSA</h2>
+        <p>
+            Dá-se à causa o valor de <strong class="value-field-value" id="ph_valorDaCausa">R$ [SOMA TOTAL DOS VALORES PLEITEADOS NOS PEDIDOS]</strong>.
+        </p>
+
+        <div class="signature-block">
+            <p>Termos em que,<br>Pede Deferimento.</p>
+            <p><span class="placeholder-value" id="ph_cidadeAssinatura">[CIDADE]</span>, <span class="placeholder-value" id="ph_dataAtual">[DATA ATUAL]</span>.</p>
+            <br><br>
+            <p>_________________________________________</p>
+            <p><span class="placeholder-value" id="ph_nomeAdvogado">[NOME DO ADVOGADO(A)]</span></p>
+            <p>OAB/<span class="placeholder-value" id="ph_oabUF">[UF DA OAB]</span> Nº <span class="placeholder-value" id="ph_oabNumero">[NÚMERO DA OAB]</span></p>
+        </div>
+
+    </div>
+    <script>
+        window.onload = function() {
+            try {
+                const dadosPeticaoString = localStorage.getItem('dadosPeticaoTrabalhista');
+                if (dadosPeticaoString) {
+                    const dados = JSON.parse(dadosPeticaoString);
+
+                    const mapeamento = {
+                        'ph_cidadeComarca': dados.peticaoVaraTrabalho,
+                        'ph_ufVara': dados.peticaoUFVara,
+                        'ph_nomeReclamante': dados.peticaoNomeReclamante,
+                        'ph_nacionalidadeReclamante': dados.peticaoNacionalidadeReclamante,
+                        'ph_estadoCivilReclamante': dados.peticaoEstadoCivilReclamante,
+                        'ph_profissaoReclamante': dados.peticaoProfissaoReclamante,
+                        'ph_rgReclamante': dados.peticaoRGReclamante,
+                        'ph_cpfReclamante': dados.peticaoCPFReclamante,
+                        'ph_enderecoReclamante': dados.peticaoEnderecoReclamante,
+                        'ph_emailReclamante': dados.peticaoEmailReclamante,
+                        'ph_enderecoAdvogado': dados.peticaoEnderecoAdvogado,
+                        'ph_nomeReclamada': dados.peticaoNomeReclamada,
+                        'ph_cnpjReclamada': dados.peticaoCNPJReclamada,
+                        'ph_enderecoReclamada': dados.peticaoEnderecoReclamada,
+                        'ph_emailReclamada': dados.peticaoEmailReclamada || "[NÃO INFORMADO]",
+                        'ph_dataAdmissao': dados.peticaoDataAdmissao,
+                        'ph_funcaoReclamante': dados.peticaoProfissaoReclamante,
+                        'ph_ultimoSalario': dados.ultimoSalarioMensalBruto,
+                        'ph_dataDemissao': dados.peticaoDataDemissao,
+                        
+                        'ph_mediaHEDiarias': dados.mediaHorasExtrasDiariasNaoPagas,
+                        'ph_percentualAdicionalHEAcao': dados.percentualAdicionalHEDAcao,
+                        'ph_totalMesesContratoHE': dados.totalMesesContratoParaHE,
+                        'ph_valorHoraNormalAcao': dados.valorHoraNormalBaseParaAcao,
+                        'ph_valorHoraExtraAcao': dados.valorHoraExtraComAdicionalParaAcao,
+                        'ph_indenizacaoHEAcao': dados.indenizacaoEstimadaHEAcao,
+                        'ph_pedidoIndenizacaoHEAcao': dados.indenizacaoEstimadaHEAcao,
+
+                        'ph_tempoIntervaloSuprimidoMinutos': dados.tempoIntervaloSuprimidoPorDiaMinutos,
+                        'ph_percentualAdicionalIntervalo': dados.percentualAdicionalIntervalo,
+                        'ph_totalMesesSupressaoIntervalo': dados.totalMesesSupressaoIntervalo,
+                        'ph_valorDiarioIntervalo': dados.valorIndenizatorioDiarioIntervalo,
+                        'ph_indenizacaoIntervalo': dados.indenizacaoEstimadaIntervalo,
+                        'ph_pedidoIndenizacaoIntervalo': dados.indenizacaoEstimadaIntervalo,
+
+                        'ph_periodoAquisitivoFerias': dados.ph_periodoAquisitivoFerias || "[PERÍODO A DEFINIR/MANUAL]",
+                        'ph_totalFeriasCalculado': dados.valorTotalBrutoFeriasCalculado,
+                        'ph_pedidoTotalFerias': dados.valorTotalBrutoFeriasCalculado,
+                        
+                        'ph_pedidoDSRMensal': dados.dsrSobreHEMensalCalculado || "R$ [VALOR DSR MENSAL]",
+
+                        'ph_percentualHonorarios': dados.peticaoHonorariosPercentual,
+                        'ph_valorDaCausa': dados.somaTotalDosValoresPleiteados,
+                        'ph_cidadeAssinatura': dados.cidadeAtual,
+                        'ph_dataAtual': dados.dataAtual,
+                        'ph_nomeAdvogado': dados.peticaoNomeAdvogado,
+                        'ph_oabUF': dados.peticaoOABUF,
+                        'ph_oabNumero': dados.peticaoOABNumero
+                    };
+
+                    // Preencher os placeholders
+                    for (const id in mapeamento) {
+                        const element = document.getElementById(id);
+                        if (element) {
+                            const valor = mapeamento[id];
+                            // Verifica se o valor não é um placeholder padrão de não preenchido ou R$ 0,00 para certos campos numéricos
+                            const isValorValido = !(valor === `[${id.substring(3).toUpperCase()}_NÃO_ENCONTRADO]` || valor === "[NÃO INFORMADO]" || valor === "[DATA NÃO INFORMADA]" || valor === "[DATA INVÁLIDA]");
+                            
+                            element.textContent = valor;
+                            element.classList.remove('placeholder-value'); 
+                            if (element.classList.contains('value-field-value')) { 
+                                element.style.fontStyle = 'normal'; 
+                                element.style.backgroundColor = isValorValido && !valor.includes("R$ 0,00") ? '#e9f5ec' : 'transparent';
+                            } else {
+                                element.style.fontStyle = 'normal';
+                                element.style.backgroundColor = 'transparent';
+                            }
+                        } else {
+                            console.warn("Elemento com ID não encontrado no template:", id);
+                        }
+                    }
+
+                    // Lógica para ocultar seções e itens de pedido
+                    const verificarEOcultar = (valorCondicional, secaoId, pedidoItemId, pedidoReflexoId = null) => {
+                        const naoCalculadoOuZero = valorCondicional.includes("R$ 0,00") || valorCondicional.includes("NÃO_ENCONTRADO") || valorCondicional.includes("não realizado ou inválido");
+                        
+                        const secaoElement = document.getElementById(secaoId);
+                        if (secaoElement && naoCalculadoOuZero) {
+                            secaoElement.classList.add('hidden-section');
+                        }
+                        const pedidoElement = document.getElementById(pedidoItemId);
+                        if (pedidoElement && naoCalculadoOuZero) {
+                            pedidoElement.classList.add('hidden-section');
+                        }
+                        if (pedidoReflexoId) {
+                            const pedidoReflexoElement = document.getElementById(pedidoReflexoId);
+                             if (pedidoReflexoElement && naoCalculadoOuZero) {
+                                pedidoReflexoElement.classList.add('hidden-section');
+                            }
+                        }
+                    };
+                    
+                    verificarEOcultar(dados.indenizacaoEstimadaHEAcao, 'secaoHorasExtras', 'pedidoItemHorasExtras', 'pedidoItemReflexosHE');
+                    verificarEOcultar(dados.indenizacaoEstimadaIntervalo, 'secaoIntervalo', 'pedidoItemIntervalo');
+                    verificarEOcultar(dados.valorTotalBrutoFeriasCalculado, 'secaoFerias', 'pedidoItemFerias');
+                    verificarEOcultar(dados.dsrSobreHEMensalCalculado, null, 'pedidoItemDSRMensal'); // DSR não tem seção própria de fatos, só pedido
+
+                    // Ocultar placeholders não preenchidos que não são valores monetários
+                    const placeholdersRestantes = document.querySelectorAll('.placeholder-value');
+                    placeholdersRestantes.forEach(el => {
+                        if (el.textContent.startsWith('[') && el.textContent.endsWith(']')) {
+                           // Poderia ocultar o parágrafo pai se for a única informação relevante,
+                           // mas por ora apenas deixamos o placeholder visível para edição manual.
+                           // Para ocultar, seria algo como: if (el.parentNode.children.length === 1) el.parentNode.classList.add('hidden-section');
+                        }
+                    });
+
+
+                    localStorage.removeItem('dadosPeticaoTrabalhista');
+                    console.log("Dados da petição carregados e removidos do localStorage.");
+
+                } else {
+                    console.log("Nenhum dado de petição encontrado no localStorage. Exibindo template padrão.");
+                    // Adicionar classe para ocultar seções se não houver dados, para um template "limpo"
+                    document.getElementById('secaoHorasExtras').classList.add('hidden-section');
+                    document.getElementById('pedidoItemHorasExtras').classList.add('hidden-section');
+                    document.getElementById('pedidoItemReflexosHE').classList.add('hidden-section');
+                    document.getElementById('secaoIntervalo').classList.add('hidden-section');
+                    document.getElementById('pedidoItemIntervalo').classList.add('hidden-section');
+                    document.getElementById('secaoFerias').classList.add('hidden-section');
+                    document.getElementById('pedidoItemFerias').classList.add('hidden-section');
+                    document.getElementById('pedidoItemDSRMensal').classList.add('hidden-section');
+                }
+            } catch (e) {
+                console.error("Erro ao processar dados da petição do localStorage:", e);
+                alert("Ocorreu um erro ao tentar carregar os dados para a petição. Verifique o console para mais detalhes.");
+            }
+        };
+    </script>
+</body>
+</html>
