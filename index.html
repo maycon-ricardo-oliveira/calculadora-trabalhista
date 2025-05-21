@@ -81,6 +81,10 @@
         .input-group {
             margin-bottom: 1.5rem; /* mb-6 */
         }
+        .input-group.hidden-field { /* Classe para ocultar campos dinamicamente */
+            display: none;
+        }
+
 
         .input-label {
             display: block;
@@ -90,6 +94,20 @@
             color: #7dd3fc; /* sky-300 */
             margin-bottom: 0.5rem; /* mb-2 */
         }
+        .checkbox-label { /* Estilo para label de checkbox */
+            display: flex;
+            align-items: center;
+            color: #cbd5e1; /* slate-300 */
+            font-size: 0.875rem;
+            cursor: pointer;
+        }
+        .checkbox-label input[type="checkbox"] {
+            margin-right: 0.5rem;
+            width: 1rem;
+            height: 1rem;
+            accent-color: #0ea5e9; /* sky-500 */
+        }
+
 
         .input-field, .textarea-field {
             width: 100%;
@@ -562,32 +580,70 @@
 
         <section class="calculator-section">
             <h2 class="calculator-title">Cálculo de Férias</h2>
+            <div class="input-group">
+                <label for="tipoCalculoFerias" class="input-label">Tipo de Cálculo de Férias:</label>
+                <select id="tipoCalculoFerias" class="input-field">
+                    <option value="simulacao">Simulação de Férias a Gozar</option>
+                    <option value="vencidas">Férias Vencidas Não Pagas</option>
+                    <option value="proporcionais">Férias Proporcionais na Rescisão</option>
+                    <option value="gozadas_nao_pagas">Férias Gozadas e Não Pagas/Pagas com Atraso</option>
+                </select>
+            </div>
+
             <div class="grid-container grid-container-md-2cols">
                 <div class="input-group">
                     <label for="mediaHorasExtrasFerias" class="input-label">Média de Variáveis para Férias (R$):</label>
                     <input type="number" id="mediaHorasExtrasFerias" class="input-field" placeholder="Ex: 350.00" value="0">
                 </div>
-                <div class="input-group">
-                    <label for="diasFerias" class="input-label">Dias de Férias Gozados:</label>
-                    <input type="number" id="diasFerias" class="input-field" placeholder="Ex: 30" value="30">
+                <div class="input-group hidden-field" id="groupDiasFeriasGozar">
+                    <label for="diasFeriasGozar" class="input-label">Dias de Férias a Gozar:</label>
+                    <input type="number" id="diasFeriasGozar" class="input-field" placeholder="Ex: 30" value="30">
+                </div>
+                <div class="input-group hidden-field" id="groupNumPeriodosVencidos">
+                    <label for="numPeriodosVencidos" class="input-label">Nº de Períodos de Férias Vencidas:</label>
+                    <input type="number" id="numPeriodosVencidos" class="input-field" value="1" min="1">
+                </div>
+                 <div class="input-group hidden-field" id="groupMesesProporcionais">
+                    <label for="mesesProporcionais" class="input-label">Meses Trabalhados no Período Aquisitivo Incompleto:</label>
+                    <input type="number" id="mesesProporcionais" class="input-field" placeholder="1-11" min="0" max="12">
+                </div>
+                <div class="input-group hidden-field" id="groupDiasFeriasNaoPagas">
+                    <label for="diasFeriasNaoPagas" class="input-label">Dias de Férias Gozados (e não pagos):</label>
+                    <input type="number" id="diasFeriasNaoPagas" class="input-field" placeholder="Ex: 30" value="30">
                 </div>
             </div>
-            <div class="input-group">
+            
+            <div class="input-group hidden-field" id="groupAbonoPecuniario">
                 <label for="abonoPecuniario" class="input-label">Vender Abono Pecuniário (1/3 das férias)?</label>
                 <select id="abonoPecuniario" class="input-field">
                     <option value="nao">Não</option>
                     <option value="sim">Sim</option>
                 </select>
             </div>
+             <div class="input-group hidden-field" id="groupPagamentoDobro">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="pagamentoDobroFerias">
+                    Pagamento em Dobro?
+                </label>
+            </div>
+            <div class="input-group hidden-field" id="groupAvisoPrevioIndenizado">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="avisoPrevioIndenizado">
+                    Aviso Prévio Indenizado (projeta +1/12 avos)?
+                </label>
+            </div>
+
             <button onclick="executarCalculoFerias()" class="calculate-button mt-4">Calcular Férias</button>
             <div id="resultadoFerias" class="result-display" style="display: none;">
+                <p class="result-text">Tipo de Cálculo: <span id="tipoFeriasCalculado" class="result-value"></span></p>
                 <p class="result-text">Base de Cálculo das Férias: <span id="baseCalculoFerias" class="result-value"></span></p>
-                <p class="result-text">Valor das Férias (dias gozados): <span id="valorFeriasBruto" class="result-value"></span></p>
+                <p class="result-text">Valor das Férias (Principal): <span id="valorFeriasBruto" class="result-value"></span></p>
                 <p class="result-text">Adicional de 1/3 sobre Férias: <span id="adicionalUmTerco" class="result-value"></span></p>
                 <div id="detalhesAbono" style="display:none;" class="detalhes-abono mt-3 pt-3 border-t">
                     <p class="result-text">Valor do Abono Pecuniário: <span id="abonoPecuniarioValor" class="result-value"></span></p>
                     <p class="result-text">Adicional de 1/3 sobre Abono: <span id="adicionalUmTercoAbono" class="result-value"></span></p>
                 </div>
+                <p id="infoPagamentoDobro" class="result-text" style="display:none;">Pagamento em Dobro Aplicado: <span id="statusPagamentoDobro" class="result-value"></span></p>
                 <p class="result-text mt-3 text-lg"><strong>Total Bruto de Férias:</strong> <span id="totalBrutoFerias" class="result-value text-2xl"></span></p>
                 <p class="disclaimer-text">Atenção: Este cálculo não inclui descontos de INSS e IRRF.</p>
             </div>
@@ -649,6 +705,16 @@
         const mesesContratoAdicionalNoturnoDisplayEl = document.getElementById('mesesContratoAdicionalNoturnoDisplay');
         const mesesContratoPericulosidadeDisplayEl = document.getElementById('mesesContratoPericulosidadeDisplay');
 
+        // Elementos da seção de Férias
+        const tipoCalculoFeriasEl = document.getElementById('tipoCalculoFerias');
+        const groupDiasFeriasGozarEl = document.getElementById('groupDiasFeriasGozar');
+        const groupNumPeriodosVencidosEl = document.getElementById('groupNumPeriodosVencidos');
+        const groupMesesProporcionaisEl = document.getElementById('groupMesesProporcionais');
+        const groupDiasFeriasNaoPagasEl = document.getElementById('groupDiasFeriasNaoPagas');
+        const groupAbonoPecuniarioEl = document.getElementById('groupAbonoPecuniario');
+        const groupPagamentoDobroEl = document.getElementById('groupPagamentoDobro');
+        const groupAvisoPrevioIndenizadoEl = document.getElementById('groupAvisoPrevioIndenizado');
+
 
         function aplicarEstadoInterruptor(mostrar) {
             if (mostrar) {
@@ -683,6 +749,37 @@
                 if (mesesContratoPericulosidadeDisplayEl) mesesContratoPericulosidadeDisplayEl.value = meses;
             });
         }
+        
+        // Atualizar campos de Férias com base na seleção
+        function atualizarCamposFerias() {
+            const tipo = tipoCalculoFeriasEl.value;
+            groupDiasFeriasGozarEl.classList.add('hidden-field');
+            groupNumPeriodosVencidosEl.classList.add('hidden-field');
+            groupMesesProporcionaisEl.classList.add('hidden-field');
+            groupDiasFeriasNaoPagasEl.classList.add('hidden-field');
+            groupAbonoPecuniarioEl.classList.add('hidden-field');
+            groupPagamentoDobroEl.classList.add('hidden-field');
+            groupAvisoPrevioIndenizadoEl.classList.add('hidden-field');
+            document.getElementById('resultadoFerias').style.display = 'none'; // Ocultar resultado ao mudar tipo
+
+            if (tipo === 'simulacao') {
+                groupDiasFeriasGozarEl.classList.remove('hidden-field');
+                groupAbonoPecuniarioEl.classList.remove('hidden-field');
+            } else if (tipo === 'vencidas') {
+                groupNumPeriodosVencidosEl.classList.remove('hidden-field');
+                groupPagamentoDobroEl.classList.remove('hidden-field');
+            } else if (tipo === 'proporcionais') {
+                groupMesesProporcionaisEl.classList.remove('hidden-field');
+                groupAvisoPrevioIndenizadoEl.classList.remove('hidden-field');
+            } else if (tipo === 'gozadas_nao_pagas') {
+                groupDiasFeriasNaoPagasEl.classList.remove('hidden-field');
+                groupPagamentoDobroEl.classList.remove('hidden-field');
+            }
+        }
+        if (tipoCalculoFeriasEl) {
+            tipoCalculoFeriasEl.addEventListener('change', atualizarCamposFerias);
+            atualizarCamposFerias(); // Chamar na carga inicial
+        }
 
 
         function formatCurrency(value) {
@@ -716,6 +813,11 @@
         function getStringValue(id, defaultValue = "") {
             const element = document.getElementById(id);
             return element ? element.value.trim() : defaultValue;
+        }
+        
+        function getCheckboxValue(id) {
+            const element = document.getElementById(id);
+            return element ? element.checked : false;
         }
 
 
@@ -790,7 +892,7 @@
         }
 
         function calcularPericulosidade() {
-            const salarioBase = getFloatValue('salarioMensalBruto'); // Usando salário bruto como base
+            const salarioBase = getFloatValue('salarioMensalBruto'); 
             const percentualPericulosidade = getFloatValue('percentualPericulosidade');
             const mesesContrato = getFloatValue('mesesContratoPrincipal');
 
@@ -822,69 +924,144 @@
             }
         }
 
-
         function calcularFerias() {
-            const salarioMensal = getFloatValue('salarioMensalBruto'); 
+            const salarioMensal = getFloatValue('salarioMensalBruto');
             const mediaVariaveis = getFloatValue('mediaHorasExtrasFerias');
-            let diasFerias = getFloatValue('diasFerias');
-            const optAbono = getStringValue('abonoPecuniario');
+            const tipoCalculo = getStringValue('tipoCalculoFerias');
 
-            if (salarioMensal <= 0 || diasFerias <= 0 || diasFerias > 30 || mediaVariaveis < 0) {
-                 if (salarioMensal <= 0) showCustomAlert("Salário Mensal Bruto para férias deve ser maior que zero.");
-                 if (diasFerias <= 0 || diasFerias > 30) showCustomAlert("Dias de férias deve ser entre 1 e 30.");
-                 if (mediaVariaveis < 0) showCustomAlert("Média de variáveis não pode ser negativa.");
+            if (salarioMensal <= 0) {
+                showCustomAlert("Salário Mensal Bruto para férias deve ser maior que zero.");
                 return null;
             }
-            
+             if (mediaVariaveis < 0) {
+                showCustomAlert("Média de variáveis não pode ser negativa.");
+                return null;
+            }
+
             const baseCalculo = salarioMensal + mediaVariaveis;
-            let valorFeriasDiasGozados;
-            let adicionalUmTercoSobreDiasGozados;
+            let valorFeriasPrincipal = 0;
+            let adicionalUmTerco = 0;
             let valorAbono = 0;
             let adicionalUmTercoAbono = 0;
+            let pagamentoEmDobroAplicado = false;
+            let tipoFeriasDescricao = "";
 
-            if (optAbono === 'sim') {
-                const diasAbonoMaximo = Math.floor(diasFerias / 3); 
-                const diasAbonoVendidos = Math.min(diasAbonoMaximo, 10); 
-                if (diasAbonoVendidos > 0) {
-                    valorAbono = (baseCalculo / 30) * diasAbonoVendidos;
-                    adicionalUmTercoAbono = valorAbono / 3;
-                    const diasEfetivamenteGozados = diasFerias - diasAbonoVendidos;
-                    valorFeriasDiasGozados = (baseCalculo / 30) * diasEfetivamenteGozados;
-                    adicionalUmTercoSobreDiasGozados = valorFeriasDiasGozados / 3;
-                } else {
-                    showCustomAlert("Não há dias suficientes para vender como abono pecuniário.");
-                    valorFeriasDiasGozados = (baseCalculo / 30) * diasFerias;
-                    adicionalUmTercoSobreDiasGozados = valorFeriasDiasGozados / 3;
+            if (tipoCalculo === 'simulacao') {
+                tipoFeriasDescricao = "Simulação de Férias a Gozar";
+                const diasFerias = getFloatValue('diasFeriasGozar');
+                if (diasFerias <= 0 || diasFerias > 30) {
+                    showCustomAlert("Dias de férias a gozar deve ser entre 1 e 30."); return null;
                 }
-            } else {
-                valorFeriasDiasGozados = (baseCalculo / 30) * diasFerias;
-                adicionalUmTercoSobreDiasGozados = valorFeriasDiasGozados / 3;
+                valorFeriasPrincipal = (baseCalculo / 30) * diasFerias;
+                adicionalUmTerco = valorFeriasPrincipal / 3;
+
+                const optAbono = getStringValue('abonoPecuniario');
+                if (optAbono === 'sim') {
+                    const diasAbonoMaximo = Math.floor(diasFerias / 3);
+                    const diasAbonoVendidos = Math.min(diasAbonoMaximo, 10);
+                    if (diasAbonoVendidos > 0) {
+                        valorAbono = (baseCalculo / 30) * diasAbonoVendidos;
+                        adicionalUmTercoAbono = valorAbono / 3;
+                        // Ajusta o valor das férias gozadas se houve abono
+                        const diasEfetivamenteGozados = diasFerias - diasAbonoVendidos;
+                        valorFeriasPrincipal = (baseCalculo / 30) * diasEfetivamenteGozados;
+                        adicionalUmTerco = valorFeriasPrincipal / 3;
+                    } else {
+                        showCustomAlert("Não há dias suficientes para vender como abono pecuniário.");
+                    }
+                }
+            } else if (tipoCalculo === 'vencidas') {
+                tipoFeriasDescricao = "Férias Vencidas Não Pagas";
+                const numPeriodos = getFloatValue('numPeriodosVencidos');
+                if (numPeriodos <= 0) {
+                    showCustomAlert("Número de períodos de férias vencidas deve ser maior que zero."); return null;
+                }
+                const valorFeriasUmPeriodo = baseCalculo; // Férias de 30 dias
+                adicionalUmTerco = valorFeriasUmPeriodo / 3;
+                valorFeriasPrincipal = (valorFeriasUmPeriodo + adicionalUmTerco) * numPeriodos;
+                
+                pagamentoEmDobroAplicado = getCheckboxValue('pagamentoDobroFerias');
+                if (pagamentoEmDobroAplicado) {
+                    valorFeriasPrincipal *= 2; // Dobra o valor principal (que já inclui o terço)
+                }
+                 adicionalUmTerco = 0; // O terço já está embutido no valorFeriasPrincipal para este caso e dobrado se aplicável
+
+            } else if (tipoCalculo === 'proporcionais') {
+                tipoFeriasDescricao = "Férias Proporcionais na Rescisão";
+                let mesesTrabalhados = getFloatValue('mesesProporcionais');
+                if (mesesTrabalhados < 0 || mesesTrabalhados > 12) { // 0 é válido se não houver direito
+                    showCustomAlert("Meses trabalhados no período aquisitivo deve ser entre 0 e 12."); return null;
+                }
+                if (getCheckboxValue('avisoPrevioIndenizado')) {
+                    mesesTrabalhados += 1; // Aviso prévio indenizado projeta 1/12 avos
+                    if (mesesTrabalhados > 12) mesesTrabalhados = 12;
+                }
+                if (mesesTrabalhados > 0) {
+                    valorFeriasPrincipal = (baseCalculo / 12) * mesesTrabalhados;
+                    adicionalUmTerco = valorFeriasPrincipal / 3;
+                }
+
+            } else if (tipoCalculo === 'gozadas_nao_pagas') {
+                tipoFeriasDescricao = "Férias Gozadas e Não Pagas/Pagas com Atraso";
+                const diasGozadosNaoPagos = getFloatValue('diasFeriasNaoPagas');
+                 if (diasGozadosNaoPagos <= 0 || diasGozadosNaoPagos > 30) {
+                    showCustomAlert("Dias de férias gozados e não pagos deve ser entre 1 e 30."); return null;
+                }
+                valorFeriasPrincipal = (baseCalculo / 30) * diasGozadosNaoPagos;
+                adicionalUmTerco = valorFeriasPrincipal / 3;
+                
+                pagamentoEmDobroAplicado = getCheckboxValue('pagamentoDobroFerias');
+                if (pagamentoEmDobroAplicado) {
+                    valorFeriasPrincipal = (valorFeriasPrincipal + adicionalUmTerco) * 2; // Dobra o valor (férias + terço)
+                    adicionalUmTerco = 0; // O terço já está embutido no valorFeriasPrincipal e dobrado
+                }
             }
-            const totalBrutoFerias = valorFeriasDiasGozados + adicionalUmTercoSobreDiasGozados + valorAbono + adicionalUmTercoAbono;
+
+            const totalBrutoFerias = valorFeriasPrincipal + adicionalUmTerco + valorAbono + adicionalUmTercoAbono;
+            
             return {
-                baseCalculo, valorFeriasDiasGozados, adicionalUmTercoSobreDiasGozados,
-                valorAbono, adicionalUmTercoAbono, totalBrutoFerias, optAbono 
+                tipoFeriasCalculado: tipoFeriasDescricao,
+                baseCalculo,
+                valorFeriasPrincipal, // Renomeado de valorFeriasDiasGozados
+                adicionalUmTerco,
+                valorAbono,
+                adicionalUmTercoAbono,
+                pagamentoEmDobroAplicado,
+                totalBrutoFerias
             };
         }
         
         function executarCalculoFerias() {
             const resultados = calcularFerias();
+            const resultadoFeriasDiv = document.getElementById('resultadoFerias');
+            const detalhesAbonoDiv = document.getElementById('detalhesAbono');
+            const infoPagamentoDobroDiv = document.getElementById('infoPagamentoDobro');
+
             if (resultados) {
+                document.getElementById('tipoFeriasCalculado').textContent = resultados.tipoFeriasCalculado;
                 document.getElementById('baseCalculoFerias').textContent = formatCurrency(resultados.baseCalculo);
-                document.getElementById('valorFeriasBruto').textContent = formatCurrency(resultados.valorFeriasDiasGozados);
-                document.getElementById('adicionalUmTerco').textContent = formatCurrency(resultados.adicionalUmTercoSobreDiasGozados);
-                const detalhesAbonoDiv = document.getElementById('detalhesAbono');
-                if (resultados.optAbono === 'sim' && resultados.valorAbono > 0) {
+                document.getElementById('valorFeriasBruto').textContent = formatCurrency(resultados.valorFeriasPrincipal);
+                document.getElementById('adicionalUmTerco').textContent = formatCurrency(resultados.adicionalUmTerco);
+                
+                if (resultados.valorAbono > 0) {
                     document.getElementById('abonoPecuniarioValor').textContent = formatCurrency(resultados.valorAbono);
                     document.getElementById('adicionalUmTercoAbono').textContent = formatCurrency(resultados.adicionalUmTercoAbono);
                     detalhesAbonoDiv.style.display = 'block';
                 } else {
                     detalhesAbonoDiv.style.display = 'none';
                 }
+
+                if (tipoCalculoFeriasEl.value === 'vencidas' || tipoCalculoFeriasEl.value === 'gozadas_nao_pagas') {
+                    document.getElementById('statusPagamentoDobro').textContent = resultados.pagamentoEmDobroAplicado ? "Sim" : "Não";
+                    infoPagamentoDobroDiv.style.display = 'block';
+                } else {
+                    infoPagamentoDobroDiv.style.display = 'none';
+                }
+
                 document.getElementById('totalBrutoFerias').textContent = formatCurrency(resultados.totalBrutoFerias);
-                document.getElementById('resultadoFerias').style.display = 'block';
+                resultadoFeriasDiv.style.display = 'block';
             } else {
-                 document.getElementById('resultadoFerias').style.display = 'none';
+                 resultadoFeriasDiv.style.display = 'none';
             }
         }
 
@@ -1012,6 +1189,11 @@
                 
                 tempoIntervaloSuprimidoPorDiaMinutos: formatNumber(getFloatValue('tempoIntervaloSprimidoMinutos'), 0),
                 percentualAdicionalIntervalo: getFloatValue('percentualAdicionalIntervalo') + "%",
+
+                // Dados de Férias para Petição
+                tipoCalculoFeriasPeticao: "",
+                valorTotalBrutoFeriasCalculado: "R$ 0,00",
+                detalhesFeriasPeticao: "" // Para descrever o tipo e se é em dobro, etc.
             };
             
             const resultadosAdicionalNoturno = calcularAdicionalNoturno();
@@ -1023,8 +1205,22 @@
             dadosPeticao.totalAdicionalPericulosidadeContrato = resultadosPericulosidade ? formatCurrency(resultadosPericulosidade.totalAdicionalPericulosidadeContrato) : "R$ 0,00";
 
 
-            const resultadosFerias = calcularFerias();
-            dadosPeticao.valorTotalBrutoFeriasCalculado = resultadosFerias ? formatCurrency(resultadosFerias.totalBrutoFerias) : "R$ 0,00";
+            const resultadosFerias = calcularFerias(); // Chamar a função refatorada
+            if (resultadosFerias) {
+                dadosPeticao.tipoCalculoFeriasPeticao = resultadosFerias.tipoFeriasCalculado;
+                dadosPeticao.valorTotalBrutoFeriasCalculado = formatCurrency(resultadosFerias.totalBrutoFerias);
+                let detalhes = `Tipo: ${resultadosFerias.tipoFeriasCalculado}. `;
+                if (resultadosFerias.pagamentoEmDobroAplicado) {
+                    detalhes += "Pagamento em Dobro Aplicado. ";
+                }
+                if (resultadosFerias.valorAbono > 0) {
+                    detalhes += `Abono: ${formatCurrency(resultadosFerias.valorAbono)} (+1/3: ${formatCurrency(resultadosFerias.adicionalUmTercoAbono)}).`;
+                }
+                dadosPeticao.detalhesFeriasPeticao = detalhes;
+            } else {
+                 dadosPeticao.valorTotalBrutoFeriasCalculado = "R$ 0,00 (Cálculo de férias não realizado ou inválido)";
+            }
+
 
             const resultadosAcaoHE = calcularIndenizacaoAcao(); 
             let indenizacaoHeAcaoValor = 0;
@@ -1052,8 +1248,10 @@
             
             let adicionalNoturnoContratoValor = resultadosAdicionalNoturno ? resultadosAdicionalNoturno.totalAdicionalNoturnoContrato : 0;
             let adicionalPericulosidadeContratoValor = resultadosPericulosidade ? resultadosPericulosidade.totalAdicionalPericulosidadeContrato : 0;
+            let feriasValor = resultadosFerias ? resultadosFerias.totalBrutoFerias : 0;
 
-            const valorDaCausa = indenizacaoHeAcaoValor + indenizacaoIntervaloValor + adicionalNoturnoContratoValor + adicionalPericulosidadeContratoValor; 
+
+            const valorDaCausa = indenizacaoHeAcaoValor + indenizacaoIntervaloValor + adicionalNoturnoContratoValor + adicionalPericulosidadeContratoValor + feriasValor; 
             dadosPeticao.somaTotalDosValoresPleiteados = formatCurrency(valorDaCausa);
 
             dadosPeticao.dataAtual = new Date().toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' });
