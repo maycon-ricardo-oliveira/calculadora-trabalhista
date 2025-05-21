@@ -20,7 +20,6 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            /* justify-content: center; Removido para permitir rolagem */
             padding-top: 2rem; 
             padding-bottom: 2rem; 
         }
@@ -112,6 +111,16 @@
         }
         .textarea-field {
             min-height: 80px;
+        }
+
+        /* Remover setas de input[type=number] */
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type=number] {
+            -moz-appearance: textfield; /* Para Firefox */
         }
 
 
@@ -276,6 +285,70 @@
         .detalhes-abono.mt-3 { margin-top: 0.75rem; }
         .detalhes-abono.pt-3 { padding-top: 0.75rem; }
         .detalhes-abono.border-t { border-top: 1px solid #334155; }
+
+        /* Estilos para o interruptor (toggle switch) */
+        .toggle-switch-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem; /* Espaçamento abaixo do interruptor */
+            padding: 0.75rem;
+            background-color: #1e293b; /* slate-800 */
+            border-radius: 0.75rem; /* rounded-xl */
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+        }
+        .toggle-switch-label {
+            margin-right: 0.75rem;
+            font-size: 0.875rem; /* text-sm */
+            color: #cbd5e1; /* slate-300 */
+            font-weight: 500;
+        }
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px; /* Largura do switch */
+            height: 26px; /* Altura do switch */
+        }
+        .switch input { 
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #334155; /* Cor de fundo do slider desligado (slate-700) */
+            transition: .4s;
+            border-radius: 26px; /* Para bordas arredondadas */
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 20px; /* Altura do círculo */
+            width: 20px; /* Largura do círculo */
+            left: 3px; /* Posição inicial do círculo */
+            bottom: 3px; /* Posição inicial do círculo */
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%; /* Para círculo */
+        }
+        input:checked + .slider {
+            background-color: #059669; /* Cor de fundo do slider ligado (emerald-600) */
+        }
+        input:focus + .slider {
+            box-shadow: 0 0 1px #059669;
+        }
+        input:checked + .slider:before {
+            transform: translateX(24px); /* Distância que o círculo se move */
+        }
+
+        .hidden-by-toggle {
+            display: none; 
+        }
+
     </style>
 </head>
 <body>
@@ -286,7 +359,15 @@
             <p>Escritório de Advocacia XYZ</p>
         </header>
 
-        <section class="calculator-section">
+        <div class="toggle-switch-container">
+            <span class="toggle-switch-label">Mostrar Dados para Petição Inicial:</span>
+            <label class="switch">
+                <input type="checkbox" id="togglePeticaoDados">
+                <span class="slider"></span>
+            </label>
+        </div>
+
+        <section class="calculator-section hidden-by-toggle" id="secaoDadosPeticao">
             <h2 class="calculator-title">Dados para Petição Inicial</h2>
             <p class="section-subtitle">Informações do Reclamante e Reclamada.</p>
             <div class="grid-container grid-container-md-2cols">
@@ -299,7 +380,7 @@
                     <input type="text" id="peticaoUFVara" class="input-field" placeholder="Ex: SP" maxlength="2">
                 </div>
             </div>
-            <h3 class="input-label" style="font-size: 1rem; color: #sky-400; margin-top:1.5rem;">Dados do Reclamante</h3>
+            <h3 class="input-label" style="font-size: 1rem; color: #38bdf8; margin-top:1.5rem; margin-bottom: 0.8rem;">Dados do Reclamante</h3>
             <div class="grid-container grid-container-md-2cols">
                 <div class="input-group">
                     <label for="peticaoNomeReclamante" class="input-label">Nome Completo do Reclamante:</label>
@@ -343,7 +424,7 @@
                 <input type="date" id="peticaoDataDemissao" class="input-field">
             </div>
 
-            <h3 class="input-label" style="font-size: 1rem; color: #sky-400; margin-top: 2rem;">Dados da Reclamada (Empresa)</h3>
+            <h3 class="input-label" style="font-size: 1rem; color: #38bdf8; margin-top:2rem; margin-bottom: 0.8rem;">Dados da Reclamada (Empresa)</h3>
             <div class="grid-container grid-container-md-2cols">
                 <div class="input-group">
                     <label for="peticaoNomeReclamada" class="input-label">Nome Completo da Reclamada:</label>
@@ -358,7 +439,7 @@
                 <label for="peticaoEnderecoReclamada" class="input-label">Endereço Completo da Reclamada (com CEP):</label>
                 <input type="text" id="peticaoEnderecoReclamada" class="input-field" placeholder="Rua, Número, Bairro, Cidade - UF, CEP">
             </div>
-             <h3 class="input-label" style="font-size: 1rem; color: #sky-400; margin-top:2rem;">Dados do Advogado</h3>
+             <h3 class="input-label" style="font-size: 1rem; color: #38bdf8; margin-top:2rem; margin-bottom: 0.8rem;">Dados do Advogado</h3>
             <div class="grid-container grid-container-md-2cols">
                  <div class="input-group">
                     <label for="peticaoNomeAdvogado" class="input-label">Nome do Advogado(a):</label>
@@ -381,7 +462,6 @@
                 <label for="peticaoHonorariosPercentual" class="input-label">Percentual Honorários Advocatícios (%):</label>
                 <input type="number" id="peticaoHonorariosPercentual" class="input-field" value="15" placeholder="Ex: 15">
             </div>
-
         </section>
 
         <section class="calculator-section">
@@ -399,7 +479,7 @@
         </section>
 
         <section class="calculator-section">
-            <h2 class="calculator-title">Cálculo Mensal de Horas Extras e DSR</h2>
+            <h2 class="calculator-title">Cálculo Mensal de Horas Extras</h2>
             <div class="grid-container grid-container-md-2cols">
                 <div class="input-group">
                     <label for="horasExtras50" class="input-label">Horas Extras (50%) no mês:</label>
@@ -409,23 +489,33 @@
                     <label for="horasExtras100" class="input-label">Horas Extras (100%) no mês:</label>
                     <input type="number" id="horasExtras100" class="input-field" placeholder="Ex: 8">
                 </div>
-                <div class="input-group">
-                    <label for="diasUteisMes" class="input-label">Dias Úteis no Mês de Referência:</label>
-                    <input type="number" id="diasUteisMes" class="input-field" placeholder="Ex: 22">
-                </div>
-                <div class="input-group">
-                    <label for="dsrEFeriadosMes" class="input-label">Domingos e Feriados no Mês:</label>
-                    <input type="number" id="dsrEFeriadosMes" class="input-field" placeholder="Ex: 8">
-                </div>
             </div>
-            <button onclick="executarCalculoHEeDSR()" class="calculate-button mt-4">Calcular HE e DSR Mensal</button>
+            <button onclick="executarCalculoHorasExtras()" class="calculate-button mt-4">Calcular Horas Extras Mensal</button>
             <div id="resultadoHE" class="result-display" style="display: none;">
                 <p class="result-text">Valor Hora Normal: <span id="valorHoraNormal" class="result-value"></span></p>
                 <p class="result-text">Total Horas Extras 50%: <span id="totalHE50" class="result-value"></span></p>
                 <p class="result-text">Total Horas Extras 100%: <span id="totalHE100" class="result-value"></span></p>
-                <p class="result-text">Valor Total das Horas Extras: <span id="valorTotalHE" class="result-value"></span></p>
-                <p class="result-text">DSR sobre Horas Extras: <span id="dsrSobreHE" class="result-value"></span></p>
-                <p class="result-text mt-3 text-lg"><strong>Total (HE + DSR) Mensal:</strong> <span id="totalGeralHE" class="result-value text-2xl"></span></p>
+                <p class="result-text mt-3 text-lg"><strong>Total Horas Extras Mensal:</strong> <span id="totalGeralHE" class="result-value text-2xl"></span></p>
+            </div>
+        </section>
+
+        <section class="calculator-section">
+            <h2 class="calculator-title">Cálculo de Adicional Noturno</h2>
+            <div class="grid-container grid-container-md-2cols">
+                <div class="input-group">
+                    <label for="horasNoturnasMes" class="input-label">Horas Noturnas Trabalhadas no Mês:</label>
+                    <input type="number" id="horasNoturnasMes" class="input-field" placeholder="Ex: 80">
+                </div>
+                <div class="input-group">
+                    <label for="percentualAdicionalNoturno" class="input-label">Percentual Adicional Noturno (%):</label>
+                    <input type="number" id="percentualAdicionalNoturno" class="input-field" value="20" placeholder="Padrão: 20">
+                </div>
+            </div>
+            <button onclick="executarCalculoAdicionalNoturno()" class="calculate-button mt-4">Calcular Adicional Noturno</button>
+            <div id="resultadoAdicionalNoturno" class="result-display" style="display: none;">
+                <p class="result-text">Valor Hora Normal (Base): <span id="valorHoraNormalAN" class="result-value"></span></p>
+                <p class="result-text">Valor do Adicional Noturno por Hora: <span id="valorAdicionalNoturnoPorHora" class="result-value"></span></p>
+                <p class="result-text mt-3 text-lg"><strong>Total Adicional Noturno no Mês:</strong> <span id="totalAdicionalNoturnoMes" class="result-value text-2xl"></span></p>
             </div>
         </section>
 
@@ -523,9 +613,8 @@
             </div>
         </section>
 
-        <section class="calculator-section">
-            <h2 class="calculator-title">Gerar Petição</h2>
-            <p class="section-subtitle">Preencha todos os dados acima e os campos de cálculo antes de gerar.</p>
+        <section class="calculator-section" id="secaoGerarPeticao"> <h2 class="calculator-title">Gerar Petição</h2>
+            <p class="section-subtitle">Preencha todos os dados e os campos de cálculo antes de gerar.</p>
             <button onclick="prepararDadosParaPeticao()" class="action-button mt-4">Gerar Petição com Dados Atuais</button>
         </section>
 
@@ -539,6 +628,35 @@
     <script>
         document.getElementById('currentYear').textContent = new Date().getFullYear();
 
+        const togglePeticaoDados = document.getElementById('togglePeticaoDados');
+        const secaoDadosPeticao = document.getElementById('secaoDadosPeticao');
+        const secaoGerarPeticao = document.getElementById('secaoGerarPeticao');
+
+        function aplicarEstadoInterruptor(mostrar) {
+            if (mostrar) {
+                secaoDadosPeticao.classList.remove('hidden-by-toggle');
+                secaoGerarPeticao.classList.remove('hidden-by-toggle');
+            } else {
+                secaoDadosPeticao.classList.add('hidden-by-toggle');
+                secaoGerarPeticao.classList.add('hidden-by-toggle');
+            }
+            togglePeticaoDados.checked = mostrar;
+        }
+
+        const mostrarPeticaoSalvo = localStorage.getItem('mostrarPeticaoDados');
+        if (mostrarPeticaoSalvo !== null) {
+            aplicarEstadoInterruptor(mostrarPeticaoSalvo === 'true');
+        } else {
+            aplicarEstadoInterruptor(false); 
+        }
+
+        togglePeticaoDados.addEventListener('change', function() {
+            const mostrar = this.checked;
+            aplicarEstadoInterruptor(mostrar);
+            localStorage.setItem('mostrarPeticaoDados', mostrar);
+        });
+
+
         function formatCurrency(value) {
             if (isNaN(value) || !isFinite(value)) return 'R$ 0,00';
             return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
@@ -551,7 +669,7 @@
         
         function formatDate(dateString) {
             if (!dateString) return "[DATA NÃO INFORMADA]";
-            const date = new Date(dateString + "T00:00:00"); // Adiciona T00:00:00 para evitar problemas de fuso horário com datas
+            const date = new Date(dateString + "T00:00:00"); 
             if (isNaN(date.getTime())) return "[DATA INVÁLIDA]";
             return date.toLocaleDateString('pt-BR');
         }
@@ -573,7 +691,7 @@
         }
 
 
-        function showCustomAlert(message) {
+        function showCustomAlert(message, duration = 7000) { 
             const existingAlert = document.getElementById('customAlert');
             if (existingAlert) {
                 existingAlert.remove();
@@ -599,52 +717,81 @@
                     alertBox.classList.remove('show');
                     setTimeout(() => alertBox.remove(), 400);
                 }
-            }, 7000); 
+            }, duration); 
         }
 
-        // --- Funções de Cálculo Refatoradas para Retornar Objetos ---
-        function calcularHorasExtrasEDSR() {
+        function calcularHorasExtras() {
             const salarioMensal = getFloatValue('salarioMensalBruto'); 
             const jornadaMensal = getFloatValue('jornadaMensalContratual');
             const horasExtras50 = getFloatValue('horasExtras50');
             const horasExtras100 = getFloatValue('horasExtras100');
-            const diasUteis = getFloatValue('diasUteisMes');
-            const dsrEFeriados = getFloatValue('dsrEFeriadosMes');
 
-            if (salarioMensal <= 0 || jornadaMensal <= 0 || diasUteis <= 0 || dsrEFeriados < 0) {
+            if (salarioMensal <= 0 || jornadaMensal <= 0 ) {
                 if (salarioMensal <= 0 ) showCustomAlert("Salário Mensal Bruto deve ser maior que zero.");
                 if (jornadaMensal <= 0) showCustomAlert("Jornada Mensal Contratual deve ser maior que zero.");
-                if (diasUteis <= 0) showCustomAlert("Dias Úteis no Mês devem ser maiores que zero.");
-                if (dsrEFeriados < 0) showCustomAlert("Domingos e Feriados não podem ser negativos.");
-                return null; // Retorna null em caso de erro de validação
+                return null; 
             }
             
             const valorHoraNormal = salarioMensal / jornadaMensal;
             const valorHE50 = valorHoraNormal * 1.5 * horasExtras50;
             const valorHE100 = valorHoraNormal * 2.0 * horasExtras100;
-            const valorTotalHE = valorHE50 + valorHE100;
-            const dsrSobreHE = (diasUteis > 0) ? (valorTotalHE / diasUteis) * dsrEFeriados : 0;
-            const totalGeralHE = valorTotalHE + dsrSobreHE;
+            const totalGeralHE = valorHE50 + valorHE100;
 
             return {
-                valorHoraNormal, valorHE50, valorHE100, valorTotalHE, dsrSobreHE, totalGeralHE
+                valorHoraNormal, valorHE50, valorHE100, totalGeralHE
             };
         }
 
-        function executarCalculoHEeDSR() {
-            const resultados = calcularHorasExtrasEDSR();
+        function executarCalculoHorasExtras() {
+            const resultados = calcularHorasExtras();
             if (resultados) {
                 document.getElementById('valorHoraNormal').textContent = formatCurrency(resultados.valorHoraNormal);
                 document.getElementById('totalHE50').textContent = formatCurrency(resultados.valorHE50);
                 document.getElementById('totalHE100').textContent = formatCurrency(resultados.valorHE100);
-                document.getElementById('valorTotalHE').textContent = formatCurrency(resultados.valorTotalHE);
-                document.getElementById('dsrSobreHE').textContent = formatCurrency(resultados.dsrSobreHE);
                 document.getElementById('totalGeralHE').textContent = formatCurrency(resultados.totalGeralHE);
                 document.getElementById('resultadoHE').style.display = 'block';
             } else {
                  document.getElementById('resultadoHE').style.display = 'none';
             }
         }
+
+        function calcularAdicionalNoturno() {
+            const salarioMensal = getFloatValue('salarioMensalBruto');
+            const jornadaMensal = getFloatValue('jornadaMensalContratual');
+            const horasNoturnasMes = getFloatValue('horasNoturnasMes');
+            const percentualAdicionalNoturno = getFloatValue('percentualAdicionalNoturno');
+
+            if (salarioMensal <= 0 || jornadaMensal <= 0 || horasNoturnasMes < 0 || percentualAdicionalNoturno < 0) {
+                if (salarioMensal <= 0) showCustomAlert("Salário Mensal Bruto para Adicional Noturno deve ser > 0.");
+                if (jornadaMensal <= 0) showCustomAlert("Jornada Mensal para Adicional Noturno deve ser > 0.");
+                if (horasNoturnasMes < 0) showCustomAlert("Horas Noturnas no Mês não podem ser negativas.");
+                if (percentualAdicionalNoturno < 0) showCustomAlert("Percentual do Adicional Noturno não pode ser negativo.");
+                return null;
+            }
+
+            const valorHoraNormal = salarioMensal / jornadaMensal;
+            const valorAdicionalNoturnoPorHora = valorHoraNormal * (percentualAdicionalNoturno / 100);
+            const totalAdicionalNoturnoMes = valorAdicionalNoturnoPorHora * horasNoturnasMes;
+            
+            return {
+                valorHoraNormalAN: valorHoraNormal,
+                valorAdicionalNoturnoPorHora,
+                totalAdicionalNoturnoMes
+            };
+        }
+
+        function executarCalculoAdicionalNoturno() {
+            const resultados = calcularAdicionalNoturno();
+            if (resultados) {
+                document.getElementById('valorHoraNormalAN').textContent = formatCurrency(resultados.valorHoraNormalAN);
+                document.getElementById('valorAdicionalNoturnoPorHora').textContent = formatCurrency(resultados.valorAdicionalNoturnoPorHora);
+                document.getElementById('totalAdicionalNoturnoMes').textContent = formatCurrency(resultados.totalAdicionalNoturnoMes);
+                document.getElementById('resultadoAdicionalNoturno').style.display = 'block';
+            } else {
+                document.getElementById('resultadoAdicionalNoturno').style.display = 'none';
+            }
+        }
+
 
         function calcularFerias() {
             const salarioMensal = getFloatValue('salarioMensalBruto'); 
@@ -686,7 +833,7 @@
             const totalBrutoFerias = valorFeriasDiasGozados + adicionalUmTercoSobreDiasGozados + valorAbono + adicionalUmTercoAbono;
             return {
                 baseCalculo, valorFeriasDiasGozados, adicionalUmTercoSobreDiasGozados,
-                valorAbono, adicionalUmTercoAbono, totalBrutoFerias, optAbono // Adicionado optAbono para lógica de exibição
+                valorAbono, adicionalUmTercoAbono, totalBrutoFerias, optAbono 
             };
         }
         
@@ -711,7 +858,6 @@
             }
         }
 
-
         function calcularIndenizacaoAcao() {
             const salarioMensal = getFloatValue('salarioMensalBruto');
             const jornadaMensal = getFloatValue('jornadaMensalContratual');
@@ -721,7 +867,6 @@
             const percentualAdicionalInput = getFloatValue('percentualAdicionalHEAcao');
 
             if (salarioMensal <= 0 || jornadaMensal <= 0 || horasExtrasDiarias <= 0 || diasTrabalhadosMes <= 0 || diasTrabalhadosMes > 31 || mesesContrato <= 0 || percentualAdicionalInput < 0) {
-                // Mensagens de erro específicas
                 if (salarioMensal <= 0) showCustomAlert("Salário para Ação de HE deve ser > 0.");
                 if (jornadaMensal <= 0) showCustomAlert("Jornada para Ação de HE deve ser > 0.");
                 if (horasExtrasDiarias <= 0) showCustomAlert("Média de HE Diárias para Ação deve ser > 0.");
@@ -776,24 +921,13 @@
 
             const valorHoraNormal = salarioMensal / jornadaMensal;
             const tempoSuprimidoHoras = tempoSuprimidoMinutos / 60;
-            const fatorAdicionalIntervalo = 1 + (percentualAdicional / 100); // Correção aqui, deve ser o adicional sobre a hora normal
-            
-            const valorIndenizatorioDiario = valorHoraNormal * tempoSuprimidoHoras * (percentualAdicional / 100); // Apenas o adicional sobre o período suprimido
-            // Ou, se a interpretação for o período integral + adicional:
-            // const valorIndenizatorioDiario = (valorHoraNormal * tempoSuprimidoHoras) * fatorAdicionalIntervalo;
-            // Vou usar a interpretação de pagar o período suprimido com o adicional (valor da hora + adicional)
-             const valorHoraComAdicionalIntervalo = valorHoraNormal * fatorAdicionalIntervalo;
-             const indenizacaoDiariaCorreta = valorHoraNormal * tempoSuprimidoHoras * (percentualAdicional / 100); // Apenas o valor do adicional
-             // A lei diz "pagamento do período correspondente com acréscimo de 50%", o que significa (VH * TempoSuprimido) + (VH * TempoSuprimido * 0.50)
-             // Ou seja, VH * TempoSuprimido * 1.50
-             const valorPeriodoSuprimidoComAdicional = (valorHoraNormal * tempoSuprimidoHoras) * fatorAdicionalIntervalo;
-
-
+            const fatorAdicionalIntervalo = 1 + (percentualAdicional / 100);
+            const valorPeriodoSuprimidoComAdicional = (valorHoraNormal * tempoSuprimidoHoras) * fatorAdicionalIntervalo;
             const indenizacaoTotal = valorPeriodoSuprimidoComAdicional * diasComSupressaoMes * mesesComSupressao;
 
             return {
                 valorHoraNormalIntervalo: valorHoraNormal,
-                valorDiarioIntervalo: valorPeriodoSuprimidoComAdicional, // Corrigido para mostrar o valor diário com adicional
+                valorDiarioIntervalo: valorPeriodoSuprimidoComAdicional, 
                 indenizacaoTotalIntervalo: indenizacaoTotal
             };
         }
@@ -810,9 +944,12 @@
             }
         }
 
-        // --- Função para Preparar e Enviar Dados para Petição ---
         function prepararDadosParaPeticao() {
-            // Coleta de dados dos inputs da petição
+            if (secaoDadosPeticao.classList.contains('hidden-by-toggle')) {
+                showCustomAlert("Por favor, ative e preencha os 'Dados para Petição Inicial' antes de gerar a petição.", 5000);
+                return;
+            }
+
             const dadosPeticao = {
                 peticaoVaraTrabalho: getStringValue('peticaoVaraTrabalho', '[CIDADE/COMARCA]'),
                 peticaoUFVara: getStringValue('peticaoUFVara', '[UF]'),
@@ -837,40 +974,24 @@
                 peticaoEnderecoAdvogado: getStringValue('peticaoEnderecoAdvogado', '[ENDEREÇO DO ESCRITÓRIO DO ADVOGADO]'),
                 peticaoHonorariosPercentual: getFloatValue('peticaoHonorariosPercentual') + "%",
 
-
-                // Dados dos Cálculos
                 ultimoSalarioMensalBruto: formatCurrency(getFloatValue('salarioMensalBruto')),
-                
-                // Horas Extras Ação
                 mediaHorasExtrasDiariasNaoPagas: formatNumber(getFloatValue('horasExtrasDiariasAcao')),
                 percentualAdicionalHEDAcao: getFloatValue('percentualAdicionalHEAcao') + "%",
                 totalMesesContratoParaHE: formatNumber(getFloatValue('mesesContratoAcao'), 0),
-                
-                // Intervalo Intrajornada Ação
                 tempoIntervaloSuprimidoPorDiaMinutos: formatNumber(getFloatValue('tempoIntervaloSprimidoMinutos'), 0),
                 percentualAdicionalIntervalo: getFloatValue('percentualAdicionalIntervalo') + "%",
                 totalMesesSupressaoIntervalo: formatNumber(getFloatValue('mesesContratoIntervalo'), 0),
-                
-                // Adicionando resultados calculados
-                // É importante que os cálculos tenham sido feitos antes de gerar a petição
-                // ou que sejam re-executados aqui para garantir os dados.
             };
 
-            // Recalcular e adicionar resultados ao objeto dadosPeticao
-            const resultadosHE = calcularHorasExtrasEDSR();
-            if (resultadosHE) {
-                dadosPeticao.dsrSobreHEMensalCalculado = formatCurrency(resultadosHE.dsrSobreHE);
-            } else {
-                dadosPeticao.dsrSobreHEMensalCalculado = "R$ 0,00 (Cálculo HE mensal não realizado ou inválido)";
-            }
+            const resultadosHE = calcularHorasExtras(); // Alterado de calcularHorasExtrasEDSR
+            // dadosPeticao.dsrSobreHEMensalCalculado foi removido
+            
+            const resultadosAdicionalNoturno = calcularAdicionalNoturno();
+            dadosPeticao.totalAdicionalNoturnoCalculado = resultadosAdicionalNoturno ? formatCurrency(resultadosAdicionalNoturno.totalAdicionalNoturnoMes) : "R$ 0,00 (Cálculo Ad. Noturno não realizado ou inválido)";
 
 
             const resultadosFerias = calcularFerias();
-            if (resultadosFerias) {
-                dadosPeticao.valorTotalBrutoFeriasCalculado = formatCurrency(resultadosFerias.totalBrutoFerias);
-            } else {
-                dadosPeticao.valorTotalBrutoFeriasCalculado = "R$ 0,00 (Cálculo de férias não realizado ou inválido)";
-            }
+            dadosPeticao.valorTotalBrutoFeriasCalculado = resultadosFerias ? formatCurrency(resultadosFerias.totalBrutoFerias) : "R$ 0,00 (Cálculo de férias não realizado ou inválido)";
 
             const resultadosAcaoHE = calcularIndenizacaoAcao();
             let indenizacaoHeAcaoValor = 0;
@@ -896,24 +1017,23 @@
                 dadosPeticao.indenizacaoEstimadaIntervalo = "R$ 0,00 (Cálculo de indenização de intervalo não realizado ou inválido)";
             }
             
-            // Calcular valor da causa (Soma dos principais pedidos)
-            // Adicionar outros valores se necessário, ex: férias se for um pedido principal e não apenas reflexo.
-            const valorDaCausa = indenizacaoHeAcaoValor + indenizacaoIntervaloValor;
+            let adicionalNoturnoValor = resultadosAdicionalNoturno ? resultadosAdicionalNoturno.totalAdicionalNoturnoMes : 0;
+            const valorDaCausa = indenizacaoHeAcaoValor + indenizacaoIntervaloValor + adicionalNoturnoValor; 
             dadosPeticao.somaTotalDosValoresPleiteados = formatCurrency(valorDaCausa);
 
             dadosPeticao.dataAtual = new Date().toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' });
-            dadosPeticao.cidadeAtual = getStringValue('peticaoVaraTrabalho', '[CIDADE]'); // Reutilizando o campo da vara para a cidade da assinatura
+            dadosPeticao.cidadeAtual = getStringValue('peticaoVaraTrabalho', '[CIDADE]');
 
-
-            // Salvar no localStorage
             try {
                 localStorage.setItem('dadosPeticaoTrabalhista', JSON.stringify(dadosPeticao));
-                showCustomAlert("Dados preparados! Abrindo template da petição...");
-                // Abrir template.html em uma nova aba
+                
+                showCustomAlert("Dados preparados! A petição será aberta numa nova aba. Lembre-se de salvá-la como PDF.", 8000);
+                
                 window.open('template.html', '_blank');
+                
             } catch (e) {
                 console.error("Erro ao salvar no localStorage: ", e);
-                showCustomAlert("Erro ao salvar dados. Verifique as permissões do navegador ou se o localStorage está cheio.");
+                showCustomAlert("Erro ao preparar dados. Verifique as permissões ou se o localStorage está cheio.");
             }
         }
 
